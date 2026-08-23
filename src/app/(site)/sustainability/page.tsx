@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Label from "@/components/ui/Label";
 import { susData } from "@/lib/content";
 import { ogFor } from "@/lib/site";
 
