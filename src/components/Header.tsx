@@ -12,9 +12,11 @@ export default function Header() {
   const pathname = usePathname();
   const isHome = pathname === "/" || pathname === "/london";
   const [scrolled, setScrolled] = useState(false);
-  const [moreOpen, setMoreOpen] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [moreOpenForPath, setMoreOpenForPath] = useState<string | null>(null);
+  const [mobileOpenForPath, setMobileOpenForPath] = useState<string | null>(null);
   const moreRef = useRef<HTMLDivElement>(null);
+  const moreOpen = moreOpenForPath === pathname;
+  const mobileOpen = mobileOpenForPath === pathname;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 48);
@@ -25,16 +27,11 @@ export default function Header() {
 
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
-      if (moreRef.current && !moreRef.current.contains(e.target as Node)) setMoreOpen(false);
+      if (moreRef.current && !moreRef.current.contains(e.target as Node)) setMoreOpenForPath(null);
     };
     document.addEventListener("click", onClick);
     return () => document.removeEventListener("click", onClick);
   }, []);
-
-  useEffect(() => {
-    setMoreOpen(false);
-    setMobileOpen(false);
-  }, [pathname]);
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
@@ -103,7 +100,7 @@ export default function Header() {
 
             <div ref={moreRef} className="hidden lg:inline-flex relative items-center">
               <button
-                onClick={() => setMoreOpen((v) => !v)}
+                onClick={() => setMoreOpenForPath((current) => (current === pathname ? null : pathname))}
                 className="inline-flex items-center gap-[6px] font-mono font-medium text-[11px] tracking-[0.12em] uppercase hover:text-[var(--brand)] transition-colors whitespace-nowrap bg-transparent border-0 cursor-pointer"
               >
                 <span className={`${pill} ${moreActive ? "bg-[var(--brand)] text-white" : ""}`}>More</span>
@@ -139,7 +136,7 @@ export default function Header() {
             </Link>
 
             <button
-              onClick={() => setMobileOpen((v) => !v)}
+              onClick={() => setMobileOpenForPath((current) => (current === pathname ? null : pathname))}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileOpen}
               className="lg:hidden inline-flex items-center justify-center w-[36px] h-[36px] -mr-[6px] bg-transparent border-0 cursor-pointer text-inherit"

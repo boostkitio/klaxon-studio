@@ -39,6 +39,7 @@ Values are in the Vercel project settings.
 | `npm start` | Serve a production build |
 | `npm run lint` | ESLint |
 | `npm run typecheck` | `tsc --noEmit` |
+| `npm run verify` | Lint, typecheck, then a production build |
 
 ## Editing content
 
