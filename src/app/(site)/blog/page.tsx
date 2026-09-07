@@ -8,7 +8,12 @@ import type { SanityImageSource } from "@sanity/image-url";
 
 import JsonLd from "@/components/JsonLd";
 import { breadcrumbSchema } from "@/lib/schema";
-export const metadata = ogFor("Blog", "Straight-talking articles on video production from the Klaxon Studio team: budgets, briefs, formats and how to get more from your content.", "/blog");
+const TITLE = "Video Production Insights | Klaxon Studio Blog";
+
+export const metadata = {
+  ...ogFor(TITLE, "Straight-talking articles on video production from the Klaxon Studio team: budgets, briefs, formats and how to get more from your content.", "/blog"),
+  title: { absolute: TITLE },
+};
 
 type PostCard = {
   _id: string;

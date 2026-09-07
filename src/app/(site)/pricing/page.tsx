@@ -6,7 +6,12 @@ import { pricingFaqItems } from "@/lib/content";
 import { pricingSchema, faqPageSchema, breadcrumbSchema } from "@/lib/schema";
 import { ogFor } from "@/lib/site";
 
-export const metadata = ogFor("Pricing", "Honest guidance on video production pricing: day rates, typical project bands and what shapes the cost of a production.", "/pricing");
+const TITLE = "Video Production Pricing | Klaxon Studio London";
+
+export const metadata = {
+  ...ogFor(TITLE, "Honest guidance on video production pricing: day rates, typical project bands and what shapes the cost of a production.", "/pricing"),
+  title: { absolute: TITLE },
+};
 
 /** Single source of truth for the tiers: rendered below and marked up as
  * Offers, so the SERP price can never drift from the page price. */
