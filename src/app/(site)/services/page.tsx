@@ -4,10 +4,11 @@ import { useState } from "react";
 import Link from "next/link";
 import Label from "@/components/ui/Label";
 import ImageSlot from "@/components/ImageSlot";
-import { services, contentTypes, type ServiceDetail } from "@/lib/content";
+import FaqAccordion from "@/components/FaqAccordion";
+import { services, contentTypes, servicesFaqItems, type ServiceDetail } from "@/lib/content";
 
 import JsonLd from "@/components/JsonLd";
-import { breadcrumbSchema } from "@/lib/schema";
+import { breadcrumbSchema, faqPageSchema } from "@/lib/schema";
 function CtaTile({ href, label }: { href: string; label: string }) {
   return (
     <Link
@@ -111,7 +112,12 @@ function ServiceTileGrid({ items, trailingTile }: { items: ServiceDetail[]; trai
 export default function ServicesPage() {
   return (
     <main>
-      <JsonLd data={breadcrumbSchema([{ name: "Services", path: "/services" }])} />
+      <JsonLd
+        data={[
+          faqPageSchema(servicesFaqItems),
+          breadcrumbSchema([{ name: "Services", path: "/services" }]),
+        ]}
+      />
       <section className="bg-[var(--brand)] text-white pt-[clamp(64px,8vw,112px)] pb-[clamp(40px,5vw,64px)]">
         <div
           className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)] grid gap-[clamp(32px,4vw,64px)] items-end"
@@ -161,6 +167,16 @@ export default function ServicesPage() {
             change, but our standard won&apos;t.
           </p>
           <ServiceTileGrid items={contentTypes} trailingTile={<CtaTile href="/work" label="See all our work" />} />
+        </div>
+      </section>
+
+      <section data-faq-end="1" className="bg-[var(--brand)] text-white pt-[clamp(56px,7vw,96px)] pb-[clamp(64px,8vw,112px)]">
+        <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)]">
+          <span className="flex items-center gap-[11px] font-mono font-medium text-[11px] tracking-[0.12em] uppercase text-white mb-[clamp(24px,3vw,38px)]">
+            <span className="w-[4px] h-[1em] bg-white" />
+            Services FAQs
+          </span>
+          <FaqAccordion items={servicesFaqItems} />
         </div>
       </section>
     </main>

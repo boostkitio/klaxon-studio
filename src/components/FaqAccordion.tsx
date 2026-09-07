@@ -1,7 +1,23 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import type { Faq } from "@/lib/content";
+
+/** Renders `a`, turning any `[text](href)` markdown links into real <Link>s. */
+function renderAnswer(a: string) {
+  const parts = a.split(/(\[[^\]]+\]\([^)]+\))/g);
+  return parts.map((part, i) => {
+    const match = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+    if (!match) return part;
+    const [, text, href] = match;
+    return (
+      <Link key={i} href={href} className="underline underline-offset-2 hover:no-underline">
+        {text}
+      </Link>
+    );
+  });
+}
 
 export default function FaqAccordion({ items }: { items: Faq[] }) {
   const [open, setOpen] = useState(-1);
@@ -39,7 +55,7 @@ export default function FaqAccordion({ items }: { items: Faq[] }) {
                     color: "#1A1A1A",
                   }}
                 >
-                  {qa.a}
+                  {renderAnswer(qa.a)}
                 </p>
               </div>
             )}

@@ -1168,3 +1168,12 @@ export const pricingFaqItems: Faq[] = [
       { q: "What's included as standard?", a: "Every quote covers up to three rounds of edit amends, a master copy of each deliverable, and six months of asset archiving. Our rates are based on a ten-hour shooting day." },
       { q: "How and when do we pay?", a: "We ask for 50% upfront before work begins, with the balance due on delivery. Quotes are valid for 30 days, and once accepted, any change to the scope is agreed and re-priced before we proceed." },
 ];
+
+export const servicesFaqItems: Faq[] = [
+      { q: "Do you handle full production end to end, or can we bring you in for just one part?", a: "Both. Some clients want us from the first idea through to final delivery. Others already have an agency handling creative and just need a crew, an editor, or a colourist. We're built to slot in wherever the gap is, not just to run whole productions." },
+      { q: "What types of video do you produce?", a: "Branded content, corporate video, B2B, documentary, sport, product, and automotive, alongside podcast production and social content. The format changes depending on what the story needs to do, but the production standard stays the same across all of them." },
+      { q: "Do you only work in London, or can you film further afield?", a: "We're based in Bermondsey, London, and most of our work is London and UK-wide, but we also handle international productions when the brief calls for it, bringing in trusted local crew where needed." },
+      { q: "How much does a video production project cost?", a: "It depends entirely on scope, format, and how much of the process you need us for. Full pricing detail is on our [pricing page](/pricing), but as a general guide, costs vary from a few thousand pounds for a straightforward film through to significantly more for multi-day branded content or documentary work." },
+      { q: "How long does a typical production take?", a: "Timelines vary by format and complexity. A short social or product film can go from brief to delivery in a couple of weeks. Larger branded content or documentary projects, involving more planning, filming days, and post-production, typically run over several weeks to a few months." },
+      { q: "Can you work with our existing creative or marketing agency?", a: "Yes, regularly. A lot of our work involves executing another agency's creative direction, we handle the production side (directing, filming, editing) while they own the concept and client relationship." },
+];
