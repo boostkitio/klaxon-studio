@@ -698,6 +698,8 @@ export const contactRows: ContactRow[] = [
       { label: "Phone", value: "+44 (0) 208 0580 669", href: "tel:+442080580669", target: "_self" },
       { label: "Studio", value: "Unit 408, Cocoa Studios, The Biscuit Factory, 100 Drummond Road, London SE16 4FA", href: "https://maps.google.com/?cid=14804452344662294871", target: "_blank" },
       { label: "Social", value: "@klaxonstudiouk", href: "https://instagram.com/klaxonstudiouk", target: "_blank" },
+      { label: "WhatsApp", value: "+44 7348 956005", href: "https://wa.me/447348956005", target: "_blank" },
+      { label: "LinkedIn", value: "Klaxon Studio", href: "https://www.linkedin.com/company/klaxon-studio", target: "_blank" },
 ];
 
 // ── Footer ──

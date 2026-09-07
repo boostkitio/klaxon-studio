@@ -166,7 +166,7 @@ export default function ContactPage() {
           <div className="flex flex-wrap gap-[clamp(28px,3.5vw,56px)] items-stretch">
             <div className="flex-[2] min-w-[260px] self-center flex flex-col gap-[clamp(13px,1.6vw,18px)]">
               {contactRows
-                .filter((r) => r.label !== "WhatsApp" && r.label !== "Social")
+                .filter((r) => r.label !== "WhatsApp" && r.label !== "Social" && r.label !== "LinkedIn")
                 .map((r) => (
                   <div key={r.label} className="flex flex-col gap-1">
                     <span className="font-mono font-medium text-[10px] tracking-[0.14em] uppercase text-white/70">
@@ -186,6 +186,7 @@ export default function ContactPage() {
                 {(() => {
                   const whatsapp = contactRows.find((r) => r.label === "WhatsApp");
                   const social = contactRows.find((r) => r.label === "Social");
+                  const linkedin = contactRows.find((r) => r.label === "LinkedIn");
                   return (
                     <>
                       {whatsapp && (
@@ -214,6 +215,23 @@ export default function ContactPage() {
                             <rect x="3" y="3" width="18" height="18" />
                             <circle cx="12" cy="12" r="4.2" />
                             <circle cx="17" cy="7" r="0.6" fill="currentColor" stroke="none" />
+                          </svg>
+                        </a>
+                      )}
+                      {linkedin && (
+                        <a
+                          href={linkedin.href}
+                          target={linkedin.target}
+                          rel="noopener"
+                          aria-label="LinkedIn"
+                          className="inline-flex items-center justify-center text-white hover:text-[var(--neutral-950)] transition-colors"
+                        >
+                          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square">
+                            <rect x="3" y="3" width="18" height="18" />
+                            <line x1="8" y1="10.5" x2="8" y2="16" />
+                            <circle cx="8" cy="7.5" r="0.6" fill="currentColor" stroke="none" />
+                            <path d="M11.5 16v-5.5" />
+                            <path d="M11.5 12.7c0-1.2.9-2.2 2.1-2.2s1.9.9 1.9 2.2V16" />
                           </svg>
                         </a>
                       )}
