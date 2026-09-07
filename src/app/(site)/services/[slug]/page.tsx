@@ -15,6 +15,22 @@ import { POST_TITLES_BY_SLUGS_QUERY } from "@/sanity/lib/queries";
 const allServices = [...services, ...contentTypes];
 const kindFor = (slug: string) => (services.some((s) => s.slug === slug) ? "Production" : "Content");
 
+/** Full SEO titles for the service pages Ubersuggest flagged as too short.
+ * Everything else keeps the plain svc.title, templated to "X | Klaxon Studio". */
+const SEO_TITLES: Record<string, string> = {
+  automotive: "Automotive Video Production | Klaxon Studio London",
+  "b2b-video": "B2B Video Production | Klaxon Studio London",
+  directing: "Video Directing Services | Klaxon Studio London",
+  documentary: "Documentary Production Company | Klaxon Studio London",
+  editing: "Video Editing Services | Klaxon Studio London",
+  filming: "Video Filming Services | Klaxon Studio London",
+  "health-sector": "Healthcare Video Production | Klaxon Studio London",
+  podcast: "Podcast Production Company | Klaxon Studio London",
+  product: "Product Video Production | Klaxon Studio London",
+  "sound-design": "Sound Design Services | Klaxon Studio London",
+  sport: "Sports Video Production | Klaxon Studio London",
+};
+
 export function generateStaticParams() {
   return allServices.map((s) => ({ slug: s.slug }));
 }
@@ -23,7 +39,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const svc = allServices.find((s) => s.slug === slug);
   if (!svc) return {};
-  return ogFor(svc.title, svc.desc, `/services/${svc.slug}`);
+  const seoTitle = SEO_TITLES[svc.slug];
+  if (!seoTitle) return ogFor(svc.title, svc.desc, `/services/${svc.slug}`);
+  return {
+    ...ogFor(seoTitle, svc.desc, `/services/${svc.slug}`),
+    title: { absolute: seoTitle },
+  };
 }
 
 export default async function ServiceDetailPage({
