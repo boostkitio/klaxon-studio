@@ -1177,3 +1177,11 @@ export const servicesFaqItems: Faq[] = [
       { q: "How long does a typical production take?", a: "Timelines vary by format and complexity. A short social or product film can go from brief to delivery in a couple of weeks. Larger branded content or documentary projects, involving more planning, filming days, and post-production, typically run over several weeks to a few months." },
       { q: "Can you work with our existing creative or marketing agency?", a: "Yes, regularly. A lot of our work involves executing another agency's creative direction, we handle the production side (directing, filming, editing) while they own the concept and client relationship." },
 ];
+
+export const workFaqItems: Faq[] = [
+      { q: "How do you choose which projects to feature here?", a: "This page shows a representative spread rather than everything we've made, some client work is confidential or under NDA and isn't shown publicly." },
+      { q: "Can we see more examples in a specific sector before briefing you?", a: "Yes, get in touch and we can share further examples relevant to your industry, including work that isn't listed publicly here." },
+      { q: "Do you shoot everything in-house, or bring in freelance crew?", a: "A mix of both. Our core team handles direction, production management and post, and we bring in trusted freelance specialists, camera operators, colourists, sound engineers, when a project needs a particular skill set or scale." },
+      { q: "Who owns the footage and final files once a project's delivered?", a: "That depends on the agreement for each project, and we're happy to discuss ownership and usage rights upfront before any work begins." },
+      { q: "Do you work directly with brands, or only through agencies?", a: "Both. Some of our work comes through creative or marketing agencies who bring us in for production, like our ongoing work with Rapp on Barclays' content. Other clients brief us directly." },
+];
