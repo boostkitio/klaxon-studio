@@ -36,8 +36,10 @@ export default async function BlogIndexPage() {
           <h1 className="font-display font-[var(--kx-dw,700)] text-[clamp(31px,4.5vw,61px)] leading-[0.97] tracking-[-0.04em] text-white">
             Loud Thinking<span className="text-white">.</span>
           </h1>
-          <p className="mt-[clamp(26px,3vw,38px)] max-w-[46ch] text-[clamp(15px,1.42vw,17px)] leading-[1.55] text-white/90">
-            Ideas, insights and opinions from the team at Klaxon Studio
+          <p className="mt-[clamp(26px,3vw,38px)] max-w-[62ch] text-[clamp(15px,1.42vw,17px)] leading-[1.55] text-white/90">
+            Honest, specific writing on the parts of video production people usually ask us about directly, budgets,
+            briefs, formats, what actually happens on a shoot day. If a client question comes up often enough in a
+            phone call, it usually ends up here properly answered instead.
           </p>
         </div>
       </section>
