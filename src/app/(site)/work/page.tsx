@@ -4,18 +4,24 @@ import { useState } from "react";
 import Link from "next/link";
 import Label from "@/components/ui/Label";
 import ProjectMedia from "@/components/ProjectMedia";
+import FaqAccordion from "@/components/FaqAccordion";
 import { HighlightWipe } from "@/components/ScrollHighlight";
-import { workAll, filterNames } from "@/lib/content";
+import { workAll, filterNames, workFaqItems } from "@/lib/content";
 
 import JsonLd from "@/components/JsonLd";
-import { breadcrumbSchema } from "@/lib/schema";
+import { breadcrumbSchema, faqPageSchema } from "@/lib/schema";
 export default function WorkPage() {
   const [filter, setFilter] = useState("All");
   const filtered = filter === "All" ? workAll : workAll.filter((w) => w.cat.includes(filter));
 
   return (
     <main>
-      <JsonLd data={breadcrumbSchema([{ name: "Work", path: "/work" }])} />
+      <JsonLd
+        data={[
+          faqPageSchema(workFaqItems),
+          breadcrumbSchema([{ name: "Work", path: "/work" }]),
+        ]}
+      />
       <section className="bg-[var(--brand)] text-white pt-[clamp(64px,8vw,112px)] pb-[clamp(32px,4vw,48px)]">
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)]">
           <div className="mb-[clamp(20px,3vw,28px)] text-white/80">
@@ -27,6 +33,13 @@ export default function WorkPage() {
               worth watching.
             </HighlightWipe>
           </h1>
+          <p className="mt-[clamp(22px,3vw,30px)] max-w-[70ch] text-[clamp(14px,1.3vw,15px)] leading-[1.6] text-white/85">
+            This is a working selection, not the whole story. Every client relationship looks different, and some of
+            our best work exists under an NDA rather than on this page. What you&apos;ll find here though spans
+            automotive launches, branded content for retail and consumer brands, sports documentary, and corporate
+            film for organisations who need something more considered than a standard company video. Filter by type
+            below, or get in touch if you want to see something specific to your sector.
+          </p>
         </div>
       </section>
 
@@ -71,6 +84,16 @@ export default function WorkPage() {
               </Link>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section data-faq-end="1" className="bg-[var(--brand)] text-white pt-[clamp(56px,7vw,96px)] pb-[clamp(64px,8vw,112px)]">
+        <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)]">
+          <span className="flex items-center gap-[11px] font-mono font-medium text-[11px] tracking-[0.12em] uppercase text-white mb-[clamp(24px,3vw,38px)]">
+            <span className="w-[4px] h-[1em] bg-white" />
+            Work FAQs
+          </span>
+          <FaqAccordion items={workFaqItems} />
         </div>
       </section>
     </main>
