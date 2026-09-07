@@ -24,14 +24,14 @@ export default function WorkPage() {
       />
       <section className="bg-[var(--brand)] text-white pt-[clamp(64px,8vw,112px)] pb-[clamp(32px,4vw,48px)]">
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)] border-b border-white/16 pb-[clamp(28px,3.4vw,40px)]">
+          <div className="mb-[clamp(20px,3vw,28px)] text-white/80">
+            <Label tone="on-brand">Selected work</Label>
+          </div>
           <div
             className="grid gap-[clamp(32px,4vw,64px)] items-start"
             style={{ gridTemplateColumns: "repeat(auto-fit,minmax(300px,1fr))" }}
           >
             <div>
-              <div className="mb-[clamp(20px,3vw,28px)] text-white/80">
-                <Label tone="on-brand">Selected work</Label>
-              </div>
               <h1 className="font-display font-[var(--kx-dw,700)] text-[clamp(31px,4.5vw,61px)] leading-[0.98] tracking-[-0.04em] text-white">
                 Films{" "}
                 <HighlightWipe from="#fff" to="var(--brand)" trigger="page">
