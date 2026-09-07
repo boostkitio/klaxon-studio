@@ -841,7 +841,7 @@ export const londonData: LondonData = {
     "The access requirements, location permits, traffic logistics and sheer density of the city mean that productions here require a level of local knowledge and operational precision that you can only develop through experience. We've spent years building that experience - and the network of trusted London-based crew, suppliers and location contacts that comes with it.",
     "We produce the full range of video content for London clients, from brand films, corporate videos and social content through to documentaries, product films and broadcast productions.",
     "London also means access to an extraordinary range of filming locations such as iconic architecture, world-class studios, diverse neighbourhoods and some of the most visually distinctive urban environments on the planet. We know how to make the city work for your production, not against it.",
-    "London is our base, not our limit - we regularly take productions across the UK, into Europe, and further afield when the brief calls for it.",
+    "London is our base, not our limit. We regularly take productions across the UK, into Europe, and further afield when called upon.",
     "If you're looking for a video production company in London that combines genuine creative quality with the operational expertise around the city, we should talk."
   ],
   "includes": [
