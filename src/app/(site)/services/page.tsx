@@ -138,7 +138,7 @@ export default function ServicesPage() {
           <h2 className="font-mono font-medium text-[11px] tracking-[0.1em] uppercase text-[var(--text-muted)] m-0">
             Production
           </h2>
-          <p className="mt-[clamp(12px,1.4vw,16px)] mb-0 max-w-[60ch] text-[clamp(14px,1.32vw,15.5px)] leading-[1.62] text-[var(--text-secondary)]">
+          <p className="mt-[clamp(12px,1.4vw,16px)] mb-0 text-[clamp(14px,1.32vw,15.5px)] leading-[1.62] text-[var(--text-secondary)]">
             Every film starts long before the camera rolls, and doesn&apos;t end when it stops. This is the full
             production process, the parts you see and the parts you don&apos;t. Whether you need one stage or all of
             them, we bring the same level of care to each. Some clients want us end to end. Others just need a gap
@@ -154,7 +154,7 @@ export default function ServicesPage() {
           <h2 className="font-mono font-medium text-[11px] tracking-[0.1em] uppercase text-[var(--text-muted)] m-0">
             Content
           </h2>
-          <p className="mt-[clamp(12px,1.4vw,16px)] mb-0 max-w-[60ch] text-[clamp(14px,1.32vw,15.5px)] leading-[1.62] text-[var(--text-secondary)]">
+          <p className="mt-[clamp(12px,1.4vw,16px)] mb-0 text-[clamp(14px,1.32vw,15.5px)] leading-[1.62] text-[var(--text-secondary)]">
             Different audiences need different formats, and we work in a lot of them. From a 30-second social ad to a
             long-form documentary, the discipline is the same: know what the film needs to do, then make sure it does
             it. We work across branded content, corporate video, B2B, documentary, sport and automotive. The brief can
