@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { heroPosterHref } from "@/lib/mux";
 
 type NavigatorConnection = {
@@ -37,6 +37,17 @@ export default function HeroLoop({
 }) {
   const [loopSrc, setLoopSrc] = useState<string | null>(null);
   const poster = heroPosterHref(loopSrc ?? mobileSrc ?? src);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // React sets `.muted` as a JS property, not an HTML attribute, so the
+  // browser's autoplay gate can reject the declarative `autoPlay muted`
+  // combo and leave the video stuck paused on its first frame. Calling
+  // `.play()` ourselves once it's mounted (`.muted` is already true by
+  // then) starts it reliably.
+  useEffect(() => {
+    if (!loopSrc) return;
+    videoRef.current?.play().catch(() => {});
+  }, [loopSrc]);
 
   useEffect(() => {
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -101,6 +112,7 @@ export default function HeroLoop({
 
   return (
     <video
+      ref={videoRef}
       src={loopSrc}
       poster={poster}
       autoPlay
