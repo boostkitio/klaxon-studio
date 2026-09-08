@@ -6,12 +6,13 @@ import Testimonials from "@/components/Testimonials";
 import { HighlightSweep } from "@/components/ScrollHighlight";
 import JsonLd from "@/components/JsonLd";
 import HeroLoop from "@/components/HeroLoop";
+import HeroPoster from "@/components/HeroPoster";
 import VideoEmbed from "@/components/VideoEmbed";
 import { londonData } from "@/lib/content";
 import { faqPageSchema, breadcrumbSchema } from "@/lib/schema";
 import { ogFor } from "@/lib/site";
 import { SHOWREEL_POSTER, SHOWREEL_VIMEO } from "@/lib/showreel";
-import { muxHeroPosterSrcSet, muxThumbnail } from "@/lib/mux";
+import { HERO_POSTER_WIDTH, muxHeroPosterSrcSet, muxThumbnail } from "@/lib/mux";
 
 const HERO_VIDEO =
   "https://stream.mux.com/2ZP9zQzGC01n7rwOSW9jk3n6rn2D6vG3It00DEcWLQLFw/720p.mp4";
@@ -34,7 +35,7 @@ export default function LondonPage() {
       <link
         rel="preload"
         as="image"
-        href={muxThumbnail(HERO_VIDEO, 720)}
+        href={muxThumbnail(HERO_VIDEO, HERO_POSTER_WIDTH)}
         imageSrcSet={muxHeroPosterSrcSet(HERO_VIDEO)}
         imageSizes="100vw"
         fetchPriority="high"
@@ -46,6 +47,10 @@ export default function LondonPage() {
         ]}
       />
       <section className="relative bg-[#1A1A1A] text-white min-h-[clamp(640px,92vh,960px)] -mt-[85px] flex items-end overflow-hidden">
+        <HeroPoster
+          src={HERO_VIDEO}
+          className="absolute inset-0 w-full h-full object-cover opacity-90"
+        />
         <HeroLoop
           src={HERO_VIDEO}
           className="absolute inset-0 w-full h-full object-cover opacity-90"

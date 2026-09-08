@@ -23,7 +23,13 @@ export function muxThumbnail(videoUrl: string, width?: number): string | undefin
 
 /** Widths cover a tile from single-column mobile up to a 2x DPR desktop tile. */
 const THUMB_WIDTHS = [400, 640, 960, 1280];
-const HERO_WIDTHS = [720, 1080, 1440];
+/**
+ * PageSpeed mobile is 412 CSS px at 1.75 DPR, so it needs 721 px.
+ * 720 is one pixel short and the browser skips it for 1080, which
+ * wasted the 720 preload on the last mobile run.
+ */
+export const HERO_POSTER_WIDTH = 800;
+const HERO_WIDTHS = [HERO_POSTER_WIDTH, 1080, 1440];
 
 export function muxThumbnailSrcSet(videoUrl: string): string | undefined {
   if (!muxPlaybackId(videoUrl)) return undefined;
