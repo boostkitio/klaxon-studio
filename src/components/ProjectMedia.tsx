@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import ImageSlot from "@/components/ImageSlot";
 import { muxThumbnail, muxThumbnailSrcSet } from "@/lib/mux";
+import { vimeoThumbnailSrcSet } from "@/lib/vimeo";
 import type { Project } from "@/lib/content";
 
 /** Tiles are roughly a third of a 1280px grid on desktop, full width on mobile. */
@@ -26,7 +27,7 @@ export default function ProjectMedia({ project }: { project: Project }) {
   const [activated, setActivated] = useState(false);
 
   const poster = project.video ? muxThumbnail(project.video, 960) : project.vimeoThumb;
-  const srcSet = project.video ? muxThumbnailSrcSet(project.video) : undefined;
+  const srcSet = project.video ? muxThumbnailSrcSet(project.video) : vimeoThumbnailSrcSet(project.vimeoThumb);
 
   if (!poster) return <ImageSlot />;
 

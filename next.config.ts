@@ -61,6 +61,13 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [{ protocol: "https", hostname: "cdn.sanity.io" }],
   },
+  experimental: {
+    // Tailwind's whole compiled stylesheet is ~12KB - small enough that
+    // inlining it removes a render-blocking request for every first-time
+    // visitor without meaningfully bloating the HTML. style-src already
+    // allows 'unsafe-inline' above, so this doesn't touch the CSP.
+    inlineCss: true,
+  },
   async redirects() {
     return [
       // Old WordPress page URLs
