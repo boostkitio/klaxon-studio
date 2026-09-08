@@ -10,10 +10,12 @@ export default function Logo({
   variant = "coral",
   height = 64,
   className = "",
+  priority = true,
 }: {
   variant?: keyof typeof sources;
   height?: number;
   className?: string;
+  priority?: boolean;
 }) {
   const ratio = 1600 / 583;
   return (
@@ -23,7 +25,7 @@ export default function Logo({
       height={height}
       width={Math.round(height * ratio)}
       className={className || undefined}
-      priority
+      priority={priority}
     />
   );
 }

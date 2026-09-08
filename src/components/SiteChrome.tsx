@@ -1,5 +1,5 @@
 import { Analytics } from "@vercel/analytics/next";
-import { GoogleAnalytics } from "@next/third-parties/google";
+import Script from "next/script";
 import { draftMode } from "next/headers";
 import { SITE_URL } from "@/lib/site";
 import { websiteSchema, siteNavigationSchema } from "@/lib/schema";
@@ -65,7 +65,13 @@ export default async function SiteChrome({ children }: { children: React.ReactNo
       <div className="flex-1">{children}</div>
       <Footer />
       <Analytics />
-      <GoogleAnalytics gaId="G-T15XQVQSZG" />
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-T15XQVQSZG"
+        strategy="lazyOnload"
+      />
+      <Script id="ga-gtag" strategy="lazyOnload">
+        {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-T15XQVQSZG');`}
+      </Script>
       {/* Keep the preview machinery draft-mode-only so the public
           site stays fully static and the read token never ships to visitors. */}
       {isDraftMode && <DraftModePreview />}

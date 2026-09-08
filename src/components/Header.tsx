@@ -90,7 +90,7 @@ export default function Header() {
               if (pathname === "/") window.scrollTo({ top: 0, behavior: "smooth" });
             }}
           >
-            <Logo variant="coral" height={64} className="h-[42px] w-auto lg:h-[64px]" />
+            <Logo variant="coral" height={64} className="h-[42px] w-auto lg:h-[64px]" priority={!isHome} />
           </Link>
 
           <div className="justify-self-end inline-flex items-center gap-[clamp(10px,2vw,26px)]">
