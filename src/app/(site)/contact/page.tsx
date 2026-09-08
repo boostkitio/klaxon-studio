@@ -140,7 +140,7 @@ export default function ContactPage() {
                 type="submit"
                 variant="primary"
                 disabled={state === "sending" || state === "sent"}
-                className="hover:!bg-[#1A1A1A] hover:!text-white hover:!border-[#1A1A1A] disabled:opacity-60"
+                className="disabled:opacity-60"
               >
                 {state === "sending" ? "Sending…" : state === "sent" ? "Sent, thank you" : "Send it over"}
               </Button>

@@ -37,6 +37,11 @@ body {
   background: var(--kx-page, var(--surface-page));
 }
 
+::selection {
+  background: var(--brand);
+  color: #fff;
+}
+
 /* Explicit @layer block (not @import ... layer(), which this bundler
    doesn't honour) so these zero-margin defaults sit in Tailwind's "base"
    layer and correctly lose to any margin utility class (mt-, mb-, m-0),

@@ -77,7 +77,7 @@ export default function Header() {
             </nav>
             <Link
               href="/contact"
-              className="lg:hidden inline-flex items-center gap-[9px] px-[12px] py-[11px] bg-[var(--brand)] text-[var(--neutral-950)] border border-[var(--brand)] font-mono font-medium text-[10px] tracking-[0.12em] uppercase whitespace-nowrap hover:bg-white hover:text-[var(--coral-700)] transition-colors"
+              className="lg:hidden inline-flex items-center gap-[9px] px-[12px] py-[11px] bg-[var(--brand)] text-white border border-[var(--brand)] font-mono font-medium text-[10px] tracking-[0.12em] uppercase whitespace-nowrap hover:bg-white hover:text-[var(--coral-700)] transition-colors"
             >
               Contact
             </Link>
@@ -133,7 +133,7 @@ export default function Header() {
 
             <Link
               href="/contact"
-              className="hidden lg:inline-flex items-center gap-[9px] px-[18px] py-[11px] bg-[var(--brand)] text-[var(--neutral-950)] border border-[var(--brand)] font-mono font-medium text-[10px] tracking-[0.12em] uppercase whitespace-nowrap hover:bg-white hover:text-[var(--coral-700)] transition-colors"
+              className="hidden lg:inline-flex items-center gap-[9px] px-[18px] py-[11px] bg-[var(--brand)] text-white border border-[var(--brand)] font-mono font-medium text-[10px] tracking-[0.12em] uppercase whitespace-nowrap hover:bg-white hover:text-[var(--coral-700)] transition-colors"
             >
               Drop us a line
             </Link>
@@ -181,7 +181,7 @@ export default function Header() {
             })}
             <Link
               href="/contact"
-              className="mt-[28px] inline-flex items-center justify-center gap-[10px] px-[22px] py-[15px] bg-[var(--brand)] text-[var(--neutral-950)] border border-[var(--brand)] font-mono font-medium text-[12px] tracking-[0.12em] uppercase"
+              className="mt-[28px] inline-flex items-center justify-center gap-[10px] px-[22px] py-[15px] bg-[var(--brand)] text-white border border-[var(--brand)] font-mono font-medium text-[12px] tracking-[0.12em] uppercase"
             >
               Drop us a line
             </Link>

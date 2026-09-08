@@ -104,11 +104,6 @@ export default async function Home() {
               Start a project
             </ButtonLink>
           </div>
-          <div className="mt-5">
-            <ArrowLink href="/london" className="text-white">
-              Bermondsey studio, London
-            </ArrowLink>
-          </div>
         </div>
         <a
           href="#showreel"
@@ -200,7 +195,7 @@ export default async function Home() {
                 Selected projects<span className="text-white">.</span>
               </h2>
             </div>
-            <ArrowLink href="/work" className="text-[var(--neutral-950)] hover:text-white">
+            <ArrowLink href="/work" className="text-white hover:text-[var(--neutral-950)]">
               View all projects
             </ArrowLink>
           </div>

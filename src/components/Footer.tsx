@@ -13,7 +13,7 @@ export default function Footer() {
             <br />
             <span className="text-[var(--neutral-950)]">Let&apos;s talk.</span>
           </h2>
-          <ButtonLink href="/contact" variant="ghost-dark">
+          <ButtonLink href="/contact" variant="ghost-light">
             Drop us a line
           </ButtonLink>
         </div>
