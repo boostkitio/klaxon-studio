@@ -856,7 +856,7 @@ export const founders: Founder[] = [
 
 // ── Sectors ──
 
-export const sectors: string[] = ["Finance", "Automotive", "Broadcast", "Heritage", "Food & Drink", "Sport", "Health", "Charity", "Consumer", "B2B"];
+export const sectors: string[] = ["Finance", "Automotive", "Broadcast", "Heritage", "Food & Drink", "Sport", "Health", "Charity", "Consumer", "B2B", "Podcast"];
 
 // ── Clients (logo strip) ──
 
