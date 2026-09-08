@@ -77,7 +77,7 @@ export default function Header() {
             </nav>
             <Link
               href="/contact"
-              className="lg:hidden inline-flex items-center gap-[9px] px-[12px] py-[11px] bg-[var(--brand)] text-[var(--neutral-950)] border border-[var(--brand)] font-mono font-medium text-[10px] tracking-[0.12em] uppercase whitespace-nowrap hover:bg-white hover:text-[var(--coral-700)] transition-colors"
+              className="lg:hidden inline-flex items-center gap-[9px] px-[12px] py-[11px] bg-[var(--brand)] text-white border border-[var(--brand)] font-mono font-medium text-[10px] tracking-[0.12em] uppercase whitespace-nowrap hover:bg-white hover:text-[var(--coral-700)] transition-colors"
             >
               Contact
             </Link>
