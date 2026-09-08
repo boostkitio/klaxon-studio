@@ -13,6 +13,7 @@ import { faqPageSchema, breadcrumbSchema } from "@/lib/schema";
 import { ogFor } from "@/lib/site";
 import { SHOWREEL_POSTER, SHOWREEL_VIMEO } from "@/lib/showreel";
 import { heroPosterHref } from "@/lib/mux";
+import { vimeoPosterSrcSet } from "@/lib/vimeo";
 
 const HERO_VIDEO =
   "https://stream.mux.com/2ZP9zQzGC01n7rwOSW9jk3n6rn2D6vG3It00DEcWLQLFw/720p.mp4";
@@ -112,6 +113,8 @@ export default function LondonPage() {
             <VideoEmbed
               src={SHOWREEL_VIMEO}
               poster={SHOWREEL_POSTER}
+              posterSrcSet={vimeoPosterSrcSet(SHOWREEL_POSTER)}
+              sizes="100vw"
               title="Klaxon-Showreel-Master-24-LR"
               priority={false}
             />

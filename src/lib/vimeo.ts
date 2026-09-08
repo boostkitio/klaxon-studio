@@ -25,3 +25,24 @@ export function vimeoThumbnailSrcSet(vimeoThumb: string | undefined): string | u
     })
     .join(", ");
 }
+
+/**
+ * A handful of stills (the showreel poster) come from Vimeo's oEmbed API
+ * as a `?mw=<width>` URL instead of the `-d_<w>x<h>` path shape above -
+ * same CDN, same resize-by-swapping-the-param trick, same free WebP
+ * negotiation, just a different query string. No aspect ratio to preserve
+ * here since mw is a max-width-only request (Vimeo returns whatever
+ * height keeps the source's own aspect).
+ */
+const POSTER_WIDTHS = [400, 640, 800];
+
+export function vimeoPosterSrcSet(poster: string | undefined): string | undefined {
+  if (!poster) return undefined;
+  const match = poster.match(/[?&]mw=(\d+)/);
+  if (!match) return undefined;
+  const originalWidth = Number(match[1]);
+
+  return POSTER_WIDTHS.filter((w) => w <= originalWidth)
+    .map((w) => `${poster.replace(/mw=\d+/, `mw=${w}`)} ${w}w`)
+    .join(", ");
+}

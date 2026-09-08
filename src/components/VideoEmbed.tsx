@@ -14,11 +14,16 @@ import { useState } from "react";
 export default function VideoEmbed({
   src,
   poster,
+  posterSrcSet,
+  sizes,
   title,
   priority = true,
 }: {
   src: string;
   poster?: string;
+  /** Responsive variants for `poster`, e.g. from vimeoPosterSrcSet(). */
+  posterSrcSet?: string;
+  sizes?: string;
   title: string;
   priority?: boolean;
 }) {
@@ -47,6 +52,8 @@ export default function VideoEmbed({
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={poster}
+          srcSet={posterSrcSet}
+          sizes={posterSrcSet ? sizes : undefined}
           alt=""
           fetchPriority={priority ? "high" : "auto"}
           loading={priority ? "eager" : "lazy"}
