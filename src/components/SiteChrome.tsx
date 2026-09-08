@@ -1,12 +1,11 @@
 import { Analytics } from "@vercel/analytics/next";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { draftMode } from "next/headers";
-import { VisualEditing } from "next-sanity/visual-editing";
 import { SITE_URL } from "@/lib/site";
 import { websiteSchema, siteNavigationSchema } from "@/lib/schema";
 import JsonLd from "@/components/JsonLd";
 import ScrollToTop from "@/components/ScrollToTop";
-import DisableDraftMode from "@/components/DisableDraftMode";
+import DraftModePreview from "@/components/DraftModePreview";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -69,12 +68,7 @@ export default async function SiteChrome({ children }: { children: React.ReactNo
       <GoogleAnalytics gaId="G-T15XQVQSZG" />
       {/* Keep the preview machinery draft-mode-only so the public
           site stays fully static and the read token never ships to visitors. */}
-      {isDraftMode && (
-        <>
-          <VisualEditing />
-          <DisableDraftMode />
-        </>
-      )}
+      {isDraftMode && <DraftModePreview />}
     </>
   );
 }

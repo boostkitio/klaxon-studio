@@ -1,4 +1,7 @@
 import type { NextConfig } from "next";
+import withBundleAnalyzerInit from "@next/bundle-analyzer";
+
+const withBundleAnalyzer = withBundleAnalyzerInit({ enabled: process.env.ANALYZE === "true" });
 
 // Old WordPress work slugs that have no matching page on the new site.
 const retiredWorkSlugs = [
@@ -97,4 +100,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withBundleAnalyzer(nextConfig);
