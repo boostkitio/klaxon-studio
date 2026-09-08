@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
+import { ogFor } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Privacy Policy",
-  description:
-    "How Klaxon Studio collects, uses and protects your personal data, including contact form submissions, analytics and cookies.",
-};
+export const metadata = ogFor(
+  "Privacy Policy",
+  "How Klaxon Studio collects, uses and protects your personal data, including contact form submissions, analytics and cookies.",
+  "/privacy-policy"
+);
 
 const sections: { heading: string; items: string[] }[] = [
   {

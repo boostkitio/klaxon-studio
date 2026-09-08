@@ -25,7 +25,6 @@ export const metadata: Metadata = {
     template: "%s | Klaxon Studio",
   },
   description: DESCRIPTION,
-  alternates: { canonical: SITE_URL },
   openGraph: {
     ...OG_BASE,
     title: "Klaxon Studio | Video Production Company London",
