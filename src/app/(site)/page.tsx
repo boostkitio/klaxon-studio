@@ -12,6 +12,7 @@ import HeroPoster from "@/components/HeroPoster";
 import VideoEmbed from "@/components/VideoEmbed";
 import { SHOWREEL_POSTER, SHOWREEL_VIMEO } from "@/lib/showreel";
 import { heroPosterHref } from "@/lib/mux";
+import { vimeoPosterSrcSet } from "@/lib/vimeo";
 
 const HERO_VIDEO =
   "https://stream.mux.com/Kk6RRPVcOCPf1rUtr942EEyaI8200rfty9tDfTY7Jbro/720p.mp4";
@@ -124,6 +125,8 @@ export default async function Home() {
             <VideoEmbed
               src={SHOWREEL_VIMEO}
               poster={SHOWREEL_POSTER}
+              posterSrcSet={vimeoPosterSrcSet(SHOWREEL_POSTER)}
+              sizes="100vw"
               title="Klaxon-Showreel-Master-24-LR"
               priority={false}
             />
