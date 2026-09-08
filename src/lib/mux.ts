@@ -21,8 +21,13 @@ export function muxThumbnail(videoUrl: string, width?: number): string | undefin
   return `https://image.mux.com/${id}/thumbnail.webp?${params}`;
 }
 
-/** Widths cover a tile from single-column mobile up to a 2x DPR desktop tile. */
-const THUMB_WIDTHS = [400, 640, 960, 1280];
+/**
+ * Widths cover a tile from single-column mobile up to a 2x DPR desktop tile.
+ * 800 closes the gap for full-width mobile tiles: PageSpeed mobile is 412
+ * CSS px at 1.75 DPR (721px needed), which used to round all the way up to
+ * 960 with only 640 below it.
+ */
+const THUMB_WIDTHS = [400, 640, 800, 960, 1280];
 /**
  * PageSpeed mobile is 412 CSS px at 1.75 DPR, so it needs 721 px.
  * 720 is one pixel short and the browser skips it for 1080, which
