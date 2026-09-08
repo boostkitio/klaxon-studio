@@ -8,7 +8,7 @@ export default function Tag({
   onClick?: () => void;
 }) {
   const classes = active
-    ? "bg-[var(--brand)] text-white border-[var(--brand)]"
+    ? "bg-[var(--brand)] text-[var(--neutral-950)] border-[var(--brand)]"
     : "bg-transparent text-[var(--text-secondary)] border-[var(--border-subtle)] hover:border-[var(--neutral-950)] hover:text-[var(--neutral-950)]";
 
   if (onClick) {

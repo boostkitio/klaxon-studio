@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { testimonials } from "@/lib/content";
 
 const themes = [
-  { bg: "#E4E2DE", text: "#1A1A1A", sub: "rgba(26,26,26,0.55)", ctrl: "#1A1A1A", ctrlIdle: "rgba(26,26,26,0.25)" },
-  { bg: "#1A1A1A", text: "#FFFFFF", sub: "rgba(255,255,255,0.55)", ctrl: "#FFFFFF", ctrlIdle: "rgba(255,255,255,0.3)" },
+  { bg: "#E4E2DE", text: "#1A1A1A", sub: "#4A4843", ctrl: "#1A1A1A", ctrlIdle: "rgba(26,26,26,0.45)" },
+  { bg: "#1A1A1A", text: "#FFFFFF", sub: "#C9C6C0", ctrl: "#FFFFFF", ctrlIdle: "rgba(255,255,255,0.55)" },
 ];
 
 const count = testimonials.length;
@@ -124,18 +124,22 @@ export default function Testimonials() {
             </svg>
           </button>
         </div>
-        <div className="flex gap-[9px]">
+        <div className="flex items-center gap-2">
           {testimonials.map((_, i) => (
             <button
               key={i}
-              aria-label="Go to review"
+              aria-label={`Go to review ${i + 1}`}
               onClick={() => goto(i)}
-              className="h-[7px] p-0 border-0 cursor-pointer transition-all duration-200"
-              style={{
-                width: i === realIndex ? 28 : 7,
-                background: i === realIndex ? theme.ctrl : theme.ctrlIdle,
-              }}
-            />
+              className="min-w-6 min-h-6 p-0 border-0 bg-transparent cursor-pointer inline-flex items-center justify-center"
+            >
+              <span
+                className="block h-[7px] transition-all duration-200"
+                style={{
+                  width: i === realIndex ? 28 : 7,
+                  background: i === realIndex ? theme.ctrl : theme.ctrlIdle,
+                }}
+              />
+            </button>
           ))}
         </div>
       </div>

@@ -13,7 +13,7 @@ export default function Footer() {
             <br />
             <span className="text-[var(--neutral-950)]">Let&apos;s talk.</span>
           </h2>
-          <ButtonLink href="/contact" variant="ghost-light">
+          <ButtonLink href="/contact" variant="ghost-dark">
             Drop us a line
           </ButtonLink>
         </div>
@@ -84,7 +84,7 @@ export default function Footer() {
               </div>
             ))}
           </div>
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-3 justify-between pt-6 font-mono font-medium text-[10px] tracking-[0.1em] uppercase text-white/40">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-3 justify-between pt-6 font-mono font-medium text-[10px] tracking-[0.1em] uppercase text-white/70">
             <span>© 2026 Klaxon Studio Ltd</span>
             {/* Legal links live here rather than in the content columns
                 above, so they carry less internal link weight than the

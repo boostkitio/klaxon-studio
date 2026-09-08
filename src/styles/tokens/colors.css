@@ -37,14 +37,14 @@
   --brand-hover:     var(--coral-600);
   --brand-active:    var(--coral-700);
   --brand-tint:      var(--coral-50);
-  --brand-contrast:  #FFFFFF;
+  --brand-contrast:  #1A1A1A;
 
   /* ---- Semantic: text ---------------------------------------- */
   --text-primary:    var(--neutral-950);
   --text-secondary:  var(--neutral-600);
-  --text-muted:      var(--neutral-500);
-  --text-brand:      var(--coral-500);
-  --text-on-brand:   #FFFFFF;
+  --text-muted:      var(--neutral-600);
+  --text-brand:      var(--coral-700);
+  --text-on-brand:   #1A1A1A;
   --text-on-dark:    var(--neutral-100);
   --text-on-dark-muted: var(--neutral-400);
 

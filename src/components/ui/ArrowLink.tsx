@@ -12,7 +12,7 @@ export default function ArrowLink({
   return (
     <Link
       href={href}
-      className={`group inline-flex items-center gap-[10px] font-mono font-medium text-[12px] tracking-[0.12em] uppercase hover:text-[var(--brand)] transition-colors ${className}`}
+      className={`group inline-flex items-center gap-[10px] font-mono font-medium text-[12px] tracking-[0.12em] uppercase hover:text-[var(--coral-700)] transition-colors ${className}`}
     >
       {children}
       <svg

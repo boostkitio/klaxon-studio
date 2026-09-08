@@ -108,7 +108,7 @@ export default async function Home() {
         <a
           href="#showreel"
           aria-label="Scroll to showreel"
-          className="absolute left-1/2 bottom-[clamp(18px,2.4vw,28px)] -translate-x-1/2 z-10 text-white/70 hover:text-white transition-colors animate-bounce"
+          className="hidden md:inline-flex items-center justify-center min-w-11 min-h-11 absolute left-1/2 bottom-[clamp(12px,1.8vw,20px)] -translate-x-1/2 z-10 text-white hover:text-white transition-colors motion-safe:animate-bounce"
         >
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M12 4v15" />
@@ -140,7 +140,7 @@ export default async function Home() {
           className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)] grid grid-cols-1 lg:grid-cols-[minmax(0,1.85fr)_minmax(260px,0.82fr)] gap-[clamp(40px,5vw,72px)] items-start"
         >
           <div>
-            <Label>What we do</Label>
+            <Label as="h2">What we do</Label>
             <div className="grid grid-cols-2 grid-rows-2 gap-0 lg:aspect-video mt-6">
               {homeServices.map((s) => (
                 <Link
@@ -188,14 +188,14 @@ export default async function Home() {
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)]">
           <div className="flex flex-wrap items-end justify-between gap-6 mb-[clamp(40px,5vw,64px)]">
             <div>
-              <div className="text-white/80">
+              <div>
                 <Label tone="on-brand">Featured work</Label>
               </div>
               <h2 className="font-display font-[var(--kx-dw,700)] text-[clamp(25px,3.24vw,41px)] leading-[1.0] tracking-[-0.035em] mt-4 text-white">
                 Selected projects<span className="text-white">.</span>
               </h2>
             </div>
-            <ArrowLink href="/work" className="text-white hover:text-[var(--neutral-950)]">
+            <ArrowLink href="/work" className="text-[var(--neutral-950)] hover:text-white">
               View all projects
             </ArrowLink>
           </div>
