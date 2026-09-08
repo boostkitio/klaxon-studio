@@ -49,6 +49,8 @@ export default function VideoEmbed({
           src={poster}
           alt=""
           fetchPriority={priority ? "high" : "auto"}
+          loading={priority ? "eager" : "lazy"}
+          decoding="async"
           className="absolute inset-0 w-full h-full object-cover"
         />
       )}

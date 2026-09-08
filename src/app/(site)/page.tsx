@@ -10,6 +10,7 @@ import ImageSlot from "@/components/ImageSlot";
 import HeroLoop from "@/components/HeroLoop";
 import VideoEmbed from "@/components/VideoEmbed";
 import { SHOWREEL_POSTER, SHOWREEL_VIMEO } from "@/lib/showreel";
+import { muxHeroPosterSrcSet, muxThumbnail } from "@/lib/mux";
 
 const HERO_VIDEO =
   "https://stream.mux.com/Kk6RRPVcOCPf1rUtr942EEyaI8200rfty9tDfTY7Jbro/720p.mp4";
@@ -37,6 +38,14 @@ export default async function Home() {
   const clientsLoop = [...clients, ...clients];
   return (
     <main>
+      <link
+        rel="preload"
+        as="image"
+        href={muxThumbnail(HERO_VIDEO, 720)}
+        imageSrcSet={muxHeroPosterSrcSet(HERO_VIDEO)}
+        imageSizes="100vw"
+        fetchPriority="high"
+      />
       {/* HERO */}
       <section className="relative bg-[#1A1A1A] text-white min-h-[clamp(640px,92vh,960px)] -mt-[85px] flex items-end overflow-hidden">
         <HeroLoop
@@ -265,6 +274,10 @@ export default async function Home() {
                 <img
                   src={urlFor(c.logo).height(76).url()}
                   alt={c.name}
+                  width={168}
+                  height={38}
+                  loading="lazy"
+                  decoding="async"
                   style={{
                     height: `calc(clamp(28px,3vw,38px) * ${c.scale})`,
                     width: "auto",
