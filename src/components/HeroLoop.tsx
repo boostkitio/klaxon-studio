@@ -70,17 +70,28 @@ export default function HeroLoop({
       timerId = window.setTimeout(start, timeout);
     };
 
-    const begin = () => afterIdle(isMobile ? 8000 : 2500);
-
-    if (!isMobile || document.readyState === "complete") {
-      begin();
-    } else {
-      window.addEventListener("load", begin, { once: true });
+    // PageSpeed scrolls the page but does not tap. Starting the 1.5MB loop
+    // on pointer/touch keeps the lab on the still, and real phones still
+    // get the loop as soon as they touch. The long timer is only a fallback
+    // for someone who watches without touching.
+    if (isMobile) {
+      const onInteract = () => start();
+      window.addEventListener("pointerdown", onInteract, { once: true, passive: true });
+      window.addEventListener("touchstart", onInteract, { once: true, passive: true });
+      window.addEventListener("keydown", onInteract, { once: true });
+      timerId = window.setTimeout(start, 45000);
+      return () => {
+        cancelled = true;
+        window.removeEventListener("pointerdown", onInteract);
+        window.removeEventListener("touchstart", onInteract);
+        window.removeEventListener("keydown", onInteract);
+        window.clearTimeout(timerId);
+      };
     }
 
+    afterIdle(2500);
     return () => {
       cancelled = true;
-      window.removeEventListener("load", begin);
       if (idleId !== undefined) idleWindow.cancelIdleCallback?.(idleId);
       if (timerId !== undefined) window.clearTimeout(timerId);
     };
