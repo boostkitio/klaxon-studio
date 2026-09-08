@@ -53,6 +53,7 @@ export default function LondonPage() {
         />
         <HeroLoop
           src={HERO_VIDEO}
+          mobileSrc={HERO_VIDEO}
           className="absolute inset-0 w-full h-full object-cover opacity-90"
         />
         <div
@@ -65,11 +66,14 @@ export default function LondonPage() {
           <div className="mb-[clamp(20px,3vw,34px)] text-white/78">
             <Label tone="on-dark">Klaxon Studio, Bermondsey, London</Label>
           </div>
-          <h1 className="font-display font-[var(--kx-dw,700)] text-[clamp(31px,5.04vw,65px)] leading-[0.97] tracking-[-0.04em] max-w-[16ch] text-white">
-            A video production company for one of the world&apos;s{" "}
-            <HighlightSweep bg="var(--brand)" color="#fff" trigger="page">
-              most demanding cities.
-            </HighlightSweep>
+          <h1 className="font-display font-[var(--kx-dw,700)] text-[clamp(31px,5.04vw,65px)] leading-[0.97] tracking-[-0.04em] max-w-[22ch] text-white">
+            A video production company for one of the{" "}
+            <span className="whitespace-nowrap">
+              world&apos;s{" "}
+              <HighlightSweep bg="var(--brand)" color="#fff" trigger="page">
+                most demanding cities.
+              </HighlightSweep>
+            </span>
           </h1>
           <p className="mt-[clamp(22px,3vw,30px)] max-w-[52ch] text-[clamp(14px,1.3vw,15px)] leading-[1.55] text-white/82">
             {londonData.lead}

@@ -11,11 +11,11 @@ export default function Label({
     tone === "on-dark"
       ? "text-[#ECEBE9]"
       : tone === "on-brand"
-        ? "text-[var(--text-on-brand)]"
+        ? "text-white"
         : "text-[var(--text-muted)]";
-  // The tick is brand coral, except on a coral section where ink keeps
-  // contrast. White on coral fails WCAG AA at this type size.
-  const tick = tone === "on-brand" ? "bg-[var(--neutral-950)]" : "bg-[var(--brand)]";
+  // The tick is brand coral, except on a coral section where it matches
+  // the label text.
+  const tick = tone === "on-brand" ? "bg-white" : "bg-[var(--brand)]";
 
   return (
     <Tag className={`m-0 inline-flex items-center gap-[11px] font-mono font-medium text-[11px] tracking-[0.12em] uppercase ${color}`}>
