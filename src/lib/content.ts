@@ -945,7 +945,7 @@ export const footerCols: FooterCol[] = [
 // ── London page ──
 
 export const londonData: LondonData = {
-  "lead": "London's a competitive market. We know, because we've been making videos here for years.",
+  "lead": "London's a competitive market. We know, because we've been a video production company here for years.",
   "body": [
     "As a video production company based in London, Klaxon Studio works with brands, agencies and organisations across the City - from established names in the city centre, through to ambitious companies in east London's creative corridor and beyond.",
     "We know the locations, we know the logistics, and we know what it takes to produce exceptional content in one of the world's most demanding production environments. London presents both enormous opportunity and genuine complexity for video production.",
@@ -956,14 +956,13 @@ export const londonData: LondonData = {
     "If you're looking for a video production company in London that combines genuine creative quality with the operational expertise around the city, we should talk."
   ],
   "includes": [
-    "Video Production Company London",
-    "Brand Film Production London",
-    "Corporate Video Production London",
-    "Branded Content Agency London",
-    "Social Media Video Production London",
-    "Documentary Filmmakers London",
-    "Film Crew London",
-    "Post Production London"
+    "Brand films",
+    "Corporate video",
+    "Branded content",
+    "Social content",
+    "Documentary",
+    "London crew",
+    "Post production"
   ],
   "faqs": [
     {

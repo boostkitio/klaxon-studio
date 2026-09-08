@@ -18,16 +18,18 @@ const HERO_VIDEO =
   "https://stream.mux.com/2ZP9zQzGC01n7rwOSW9jk3n6rn2D6vG3It00DEcWLQLFw/720p.mp4";
 
 /**
- * Deliberately NOT titled "Video Production Company London": the homepage
- * already targets that term and ranks far better for it (position 7 against
- * this page's 23), so competing head-on just split the signal between two
- * pages. This page owns the local and borough-level intent instead.
+ * Search Console sends "video production company london" here (not the
+ * homepage). Keep the title on that query and use Bermondsey in the body.
  */
-export const metadata = ogFor(
-  "Video Production in South London & Bermondsey",
-  "Klaxon Studio is a video production company based in Bermondsey, SE16, filming brand films, corporate video and social content across South London and the rest of the city.",
-  "/london"
-);
+const LONDON_TITLE = "Video Production Company London | Klaxon Studio";
+export const metadata = {
+  ...ogFor(
+    LONDON_TITLE,
+    "Klaxon Studio is a video production company in London, based in Bermondsey, making brand films, corporate video and social content across the city.",
+    "/london"
+  ),
+  title: { absolute: LONDON_TITLE },
+};
 
 export default function LondonPage() {
   return (
@@ -64,7 +66,7 @@ export default function LondonPage() {
             <Label tone="on-dark">Klaxon Studio, Bermondsey, London</Label>
           </div>
           <h1 className="font-display font-[var(--kx-dw,700)] text-[clamp(31px,5.04vw,65px)] leading-[0.97] tracking-[-0.04em] max-w-[16ch] text-white">
-            Video production built for one of the world&apos;s{" "}
+            A video production company for one of the world&apos;s{" "}
             <HighlightSweep bg="var(--brand)" color="#fff" trigger="page">
               most demanding cities.
             </HighlightSweep>
