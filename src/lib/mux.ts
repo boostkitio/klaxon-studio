@@ -29,14 +29,22 @@ const THUMB_WIDTHS = [400, 640, 960, 1280];
  * wasted the 720 preload on the last mobile run.
  */
 export const HERO_POSTER_WIDTH = 800;
-const HERO_WIDTHS = [HERO_POSTER_WIDTH, 1080, 1440];
+
+const LOCAL_HERO_POSTER: Record<string, string> = {
+  Kk6RRPVcOCPf1rUtr942EEyaI8200rfty9tDfTY7Jbro: "/images/hero-home.webp",
+  c008Sb6JlZ2dtxU6XT68ApUu7cJn3RoSvgvPy8ViBtwU: "/images/hero-home-mobile.webp",
+  "2ZP9zQzGC01n7rwOSW9jk3n6rn2D6vG3It00DEcWLQLFw": "/images/hero-london.webp",
+};
+
+/** Same-origin still used for the homepage and London heroes. */
+export function heroPosterHref(videoUrl: string): string | undefined {
+  const id = muxPlaybackId(videoUrl);
+  if (!id) return undefined;
+  return LOCAL_HERO_POSTER[id] ?? muxThumbnail(videoUrl, HERO_POSTER_WIDTH);
+}
 
 export function muxThumbnailSrcSet(videoUrl: string): string | undefined {
   if (!muxPlaybackId(videoUrl)) return undefined;
   return THUMB_WIDTHS.map((w) => `${muxThumbnail(videoUrl, w)} ${w}w`).join(", ");
 }
 
-export function muxHeroPosterSrcSet(videoUrl: string): string | undefined {
-  if (!muxPlaybackId(videoUrl)) return undefined;
-  return HERO_WIDTHS.map((w) => `${muxThumbnail(videoUrl, w)} ${w}w`).join(", ");
-}

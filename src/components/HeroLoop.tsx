@@ -1,33 +1,36 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { HERO_POSTER_WIDTH, muxThumbnail } from "@/lib/mux";
+import { heroPosterHref } from "@/lib/mux";
 
 type NavigatorConnection = { saveData?: boolean };
 
 /**
- * Desktop-only hero loop. The still is a separate server image so phones
- * never download the 3.5–4 MB Mux MP4, and LCP is not this video.
+ * Desktop plays `src`. Phones play `mobileSrc` when provided, otherwise
+ * they stay on the still so they do not download the desktop MP4.
  */
 export default function HeroLoop({
   src,
+  mobileSrc,
   className,
 }: {
   src: string;
+  mobileSrc?: string;
   className?: string;
 }) {
-  const poster = muxThumbnail(src, HERO_POSTER_WIDTH);
-  const [playLoop, setPlayLoop] = useState(false);
+  const [loopSrc, setLoopSrc] = useState<string | null>(null);
+  const poster = heroPosterHref(loopSrc ?? src);
 
   useEffect(() => {
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const hoverNone = window.matchMedia("(hover: none)");
     const connection = (navigator as Navigator & { connection?: NavigatorConnection }).connection;
-    if (motion.matches || hoverNone.matches || connection?.saveData || window.innerWidth < 768) {
-      return;
-    }
+    if (motion.matches || connection?.saveData) return;
 
-    const start = () => setPlayLoop(true);
+    const isMobile = window.innerWidth < 768;
+    const nextSrc = isMobile ? mobileSrc : src;
+    if (!nextSrc) return;
+
+    const start = () => setLoopSrc(nextSrc);
     const idleWindow = window as Window & {
       requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
       cancelIdleCallback?: (id: number) => void;
@@ -40,13 +43,13 @@ export default function HeroLoop({
 
     const timeout = window.setTimeout(start, 1200);
     return () => window.clearTimeout(timeout);
-  }, []);
+  }, [mobileSrc, src]);
 
-  if (!playLoop) return null;
+  if (!loopSrc) return null;
 
   return (
     <video
-      src={src}
+      src={loopSrc}
       poster={poster}
       autoPlay
       muted

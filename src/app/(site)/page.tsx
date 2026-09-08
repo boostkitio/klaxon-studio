@@ -11,10 +11,12 @@ import HeroLoop from "@/components/HeroLoop";
 import HeroPoster from "@/components/HeroPoster";
 import VideoEmbed from "@/components/VideoEmbed";
 import { SHOWREEL_POSTER, SHOWREEL_VIMEO } from "@/lib/showreel";
-import { HERO_POSTER_WIDTH, muxHeroPosterSrcSet, muxThumbnail } from "@/lib/mux";
+import { heroPosterHref } from "@/lib/mux";
 
 const HERO_VIDEO =
   "https://stream.mux.com/Kk6RRPVcOCPf1rUtr942EEyaI8200rfty9tDfTY7Jbro/720p.mp4";
+const HERO_VIDEO_MOBILE =
+  "https://stream.mux.com/c008Sb6JlZ2dtxU6XT68ApUu7cJn3RoSvgvPy8ViBtwU/720p.mp4";
 
 const HOME_TITLE = "Klaxon Studio | Video Production Company London";
 export const metadata = {
@@ -42,19 +44,30 @@ export default async function Home() {
       <link
         rel="preload"
         as="image"
-        href={muxThumbnail(HERO_VIDEO, HERO_POSTER_WIDTH)}
-        imageSrcSet={muxHeroPosterSrcSet(HERO_VIDEO)}
-        imageSizes="100vw"
+        href={heroPosterHref(HERO_VIDEO_MOBILE)}
+        media="(max-width: 767px)"
+        fetchPriority="high"
+      />
+      <link
+        rel="preload"
+        as="image"
+        href={heroPosterHref(HERO_VIDEO)}
+        media="(min-width: 768px)"
         fetchPriority="high"
       />
       {/* HERO */}
       <section className="relative bg-[#1A1A1A] text-white min-h-[clamp(640px,92vh,960px)] -mt-[85px] flex items-end overflow-hidden">
         <HeroPoster
+          src={HERO_VIDEO_MOBILE}
+          className="absolute inset-0 w-full h-full object-cover opacity-90 md:hidden"
+        />
+        <HeroPoster
           src={HERO_VIDEO}
-          className="absolute inset-0 w-full h-full object-cover opacity-90"
+          className="absolute inset-0 w-full h-full object-cover opacity-90 hidden md:block"
         />
         <HeroLoop
           src={HERO_VIDEO}
+          mobileSrc={HERO_VIDEO_MOBILE}
           className="absolute inset-0 w-full h-full object-cover opacity-90"
         />
         <div
