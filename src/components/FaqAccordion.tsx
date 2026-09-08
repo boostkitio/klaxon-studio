@@ -46,19 +46,17 @@ export default function FaqAccordion({ items }: { items: Faq[] }) {
                 </svg>
               </span>
             </button>
-            {isOpen && (
-              <div>
-                <p
-                  className="m-0 text-[clamp(14px,1.3vw,15px)] leading-[1.62]"
-                  style={{
-                    padding: "0 clamp(12px,1.4vw,18px) clamp(22px,2.6vw,30px) calc(6px + clamp(16px,2vw,28px) + clamp(12px,1.4vw,18px))",
-                    color: "#1A1A1A",
-                  }}
-                >
-                  {renderAnswer(qa.a)}
-                </p>
-              </div>
-            )}
+            <div hidden={!isOpen}>
+              <p
+                className="m-0 text-[clamp(14px,1.3vw,15px)] leading-[1.62]"
+                style={{
+                  padding: "0 clamp(12px,1.4vw,18px) clamp(22px,2.6vw,30px) calc(6px + clamp(16px,2vw,28px) + clamp(12px,1.4vw,18px))",
+                  color: "#1A1A1A",
+                }}
+              >
+                {renderAnswer(qa.a)}
+              </p>
+            </div>
           </div>
         );
       })}
