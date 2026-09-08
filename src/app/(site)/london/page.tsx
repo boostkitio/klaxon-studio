@@ -1,15 +1,16 @@
 import Image from "next/image";
-import Script from "next/script";
 import Label from "@/components/ui/Label";
 import { ButtonLink } from "@/components/ui/Button";
 import FaqAccordion from "@/components/FaqAccordion";
 import Testimonials from "@/components/Testimonials";
 import { HighlightSweep } from "@/components/ScrollHighlight";
 import JsonLd from "@/components/JsonLd";
+import HeroLoop from "@/components/HeroLoop";
+import VideoEmbed from "@/components/VideoEmbed";
 import { londonData } from "@/lib/content";
-import { muxThumbnail } from "@/lib/mux";
 import { faqPageSchema, breadcrumbSchema } from "@/lib/schema";
 import { ogFor } from "@/lib/site";
+import { SHOWREEL_POSTER, SHOWREEL_VIMEO } from "@/lib/showreel";
 
 const HERO_VIDEO =
   "https://stream.mux.com/2ZP9zQzGC01n7rwOSW9jk3n6rn2D6vG3It00DEcWLQLFw/720p.mp4";
@@ -36,13 +37,8 @@ export default function LondonPage() {
         ]}
       />
       <section className="relative bg-[#1A1A1A] text-white min-h-[clamp(640px,92vh,960px)] -mt-[85px] flex items-end overflow-hidden">
-        <video
+        <HeroLoop
           src={HERO_VIDEO}
-          poster={muxThumbnail(HERO_VIDEO, 1600)}
-          autoPlay
-          muted
-          loop
-          playsInline
           className="absolute inset-0 w-full h-full object-cover opacity-90"
         />
         <div
@@ -95,12 +91,11 @@ export default function LondonPage() {
       <section id="showreel" className="bg-[#1A1A1A] text-white py-[clamp(52px,7vw,96px)] scroll-mt-[84px]">
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)]">
           <div className="relative overflow-hidden bg-black" style={{ paddingTop: "41.67%" }}>
-            <iframe
-              src="https://player.vimeo.com/video/1208364199?h=c08e30fd3a&badge=0&autopause=0&player_id=0&app_id=58479"
-              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
+            <VideoEmbed
+              src={SHOWREEL_VIMEO}
+              poster={SHOWREEL_POSTER}
               title="Klaxon-Showreel-Master-24-LR"
-              className="absolute inset-0 w-full h-full border-none"
+              priority={false}
             />
             <span className="absolute left-[clamp(16px,2.4vw,28px)] top-[clamp(16px,2.4vw,28px)] font-mono font-medium text-[11px] tracking-[0.12em] uppercase text-white pointer-events-none [text-shadow:0_1px_4px_rgba(0,0,0,0.6)]">
               Klaxon Showreel &apos;26
@@ -108,7 +103,6 @@ export default function LondonPage() {
           </div>
         </div>
       </section>
-      <Script src="https://player.vimeo.com/api/player.js" strategy="lazyOnload" />
 
       <section className="pt-[clamp(48px,7vw,96px)] pb-[clamp(40px,5vw,64px)]">
         <div

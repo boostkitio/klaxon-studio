@@ -58,6 +58,8 @@ export default async function SiteChrome({ children }: { children: React.ReactNo
   const { isEnabled: isDraftMode } = await draftMode();
   return (
     <>
+      <link rel="preconnect" href="https://image.mux.com" />
+      <link rel="preconnect" href="https://i.vimeocdn.com" />
       <JsonLd data={[LOCAL_BUSINESS_JSONLD, websiteSchema(), siteNavigationSchema()]} />
       <ScrollToTop />
       <Header />

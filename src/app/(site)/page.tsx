@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Script from "next/script";
 import { ogFor } from "@/lib/site";
 import Label from "@/components/ui/Label";
 import { ButtonLink } from "@/components/ui/Button";
@@ -8,7 +7,9 @@ import Tag from "@/components/ui/Tag";
 import Testimonials from "@/components/Testimonials";
 import ProjectMedia from "@/components/ProjectMedia";
 import ImageSlot from "@/components/ImageSlot";
-import { muxThumbnail } from "@/lib/mux";
+import HeroLoop from "@/components/HeroLoop";
+import VideoEmbed from "@/components/VideoEmbed";
+import { SHOWREEL_POSTER, SHOWREEL_VIMEO } from "@/lib/showreel";
 
 const HERO_VIDEO =
   "https://stream.mux.com/Kk6RRPVcOCPf1rUtr942EEyaI8200rfty9tDfTY7Jbro/720p.mp4";
@@ -38,16 +39,8 @@ export default async function Home() {
     <main>
       {/* HERO */}
       <section className="relative bg-[#1A1A1A] text-white min-h-[clamp(640px,92vh,960px)] -mt-[85px] flex items-end overflow-hidden">
-        {/* The loop is 3.5MB and Mux only publishes the 720p rendition, so the
-            poster is what the visitor actually sees first. Without it the hero
-            sits flat black until enough video has buffered to paint a frame. */}
-        <video
+        <HeroLoop
           src={HERO_VIDEO}
-          poster={muxThumbnail(HERO_VIDEO, 1600)}
-          autoPlay
-          muted
-          loop
-          playsInline
           className="absolute inset-0 w-full h-full object-cover opacity-90"
         />
         <div
@@ -101,12 +94,11 @@ export default async function Home() {
       <section id="showreel" className="bg-[#1A1A1A] text-white py-[clamp(52px,7vw,96px)] scroll-mt-[84px]">
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)]">
           <div className="relative overflow-hidden bg-black" style={{ paddingTop: "41.67%" }}>
-            <iframe
-              src="https://player.vimeo.com/video/1208364199?h=c08e30fd3a&badge=0&autopause=0&player_id=0&app_id=58479"
-              allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
+            <VideoEmbed
+              src={SHOWREEL_VIMEO}
+              poster={SHOWREEL_POSTER}
               title="Klaxon-Showreel-Master-24-LR"
-              className="absolute inset-0 w-full h-full border-none"
+              priority={false}
             />
             <span className="absolute left-[clamp(16px,2.4vw,28px)] top-[clamp(16px,2.4vw,28px)] font-mono font-medium text-[11px] tracking-[0.12em] uppercase text-white pointer-events-none [text-shadow:0_1px_4px_rgba(0,0,0,0.6)]">
               Klaxon Showreel &apos;26
@@ -114,7 +106,6 @@ export default async function Home() {
           </div>
         </div>
       </section>
-      <Script src="https://player.vimeo.com/api/player.js" strategy="lazyOnload" />
 
       {/* SERVICES SPLIT */}
       <section className="pt-[clamp(48px,7vw,96px)] pb-[clamp(72px,10vw,128px)]">

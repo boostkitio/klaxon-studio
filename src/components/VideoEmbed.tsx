@@ -15,10 +15,12 @@ export default function VideoEmbed({
   src,
   poster,
   title,
+  priority = true,
 }: {
   src: string;
   poster?: string;
   title: string;
+  priority?: boolean;
 }) {
   const [active, setActive] = useState(false);
 
@@ -46,7 +48,7 @@ export default function VideoEmbed({
         <img
           src={poster}
           alt=""
-          fetchPriority="high"
+          fetchPriority={priority ? "high" : "auto"}
           className="absolute inset-0 w-full h-full object-cover"
         />
       )}
