@@ -5,15 +5,15 @@ type Variant = "primary" | "ghost-light" | "ghost-dark" | "ghost-brand" | "light
 
 const variantClasses: Record<Variant, string> = {
   primary:
-    "bg-[var(--brand)] text-white border border-[var(--brand)] hover:bg-white hover:text-[var(--coral-700)] hover:border-[var(--coral-700)]",
+    "bg-[var(--brand)] text-white border border-[var(--brand)] hover:bg-white hover:text-[var(--brand)] hover:border-[var(--brand)]",
   "ghost-light":
-    "bg-transparent text-white border border-white hover:bg-white hover:text-[var(--coral-700)]",
+    "bg-transparent text-white border border-white hover:bg-white hover:text-[var(--brand)]",
   "ghost-dark":
     "bg-transparent text-[var(--text-primary)] border border-[var(--border-strong)] hover:bg-[var(--brand)] hover:text-[var(--neutral-950)] hover:border-[var(--brand)]",
   "ghost-brand":
-    "bg-transparent text-[var(--coral-700)] border border-[var(--coral-700)] hover:bg-[var(--brand)] hover:text-white hover:border-[var(--brand)]",
+    "bg-transparent text-[var(--brand)] border border-[var(--brand)] hover:bg-[var(--brand)] hover:text-white hover:border-[var(--brand)]",
   light:
-    "bg-white text-[var(--coral-700)] border border-white hover:bg-[var(--brand)] hover:text-white hover:border-[var(--brand)]",
+    "bg-white text-[var(--brand)] border border-white hover:bg-[var(--brand)] hover:text-white hover:border-[var(--brand)]",
 };
 
 const baseClasses =

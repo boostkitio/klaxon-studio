@@ -70,14 +70,14 @@ export default function Header() {
                     href={item.href}
                     className="inline-flex items-center font-mono font-medium text-[11px] tracking-[0.12em] uppercase hover:text-[var(--brand)] transition-colors"
                   >
-                    <span className={`${pill} ${active ? "bg-[var(--brand)] text-[var(--neutral-950)]" : ""}`}>{item.label}</span>
+                    <span className={`${pill} ${active ? "bg-[var(--brand)] text-white" : ""}`}>{item.label}</span>
                   </Link>
                 );
               })}
             </nav>
             <Link
               href="/contact"
-              className="lg:hidden inline-flex items-center gap-[9px] px-[12px] py-[11px] bg-[var(--brand)] text-white border border-[var(--brand)] font-mono font-medium text-[10px] tracking-[0.12em] uppercase whitespace-nowrap hover:bg-white hover:text-[var(--coral-700)] transition-colors"
+              className="lg:hidden inline-flex items-center gap-[9px] px-[12px] py-[11px] bg-[var(--brand)] text-white border border-[var(--brand)] font-mono font-medium text-[10px] tracking-[0.12em] uppercase whitespace-nowrap hover:bg-white hover:text-[var(--brand)] transition-colors"
             >
               Contact
             </Link>
@@ -98,7 +98,7 @@ export default function Header() {
               href="/blog"
               className="hidden lg:inline-flex items-center font-mono font-medium text-[11px] tracking-[0.12em] uppercase hover:text-[var(--brand)] transition-colors whitespace-nowrap"
             >
-              <span className={`${pill} ${blogActive ? "bg-[var(--brand)] text-[var(--neutral-950)]" : ""}`}>Blog</span>
+              <span className={`${pill} ${blogActive ? "bg-[var(--brand)] text-white" : ""}`}>Blog</span>
             </Link>
 
             <div ref={moreRef} className="hidden lg:inline-flex relative items-center">
@@ -106,7 +106,7 @@ export default function Header() {
                 onClick={() => setMoreOpen((v) => !v)}
                 className="inline-flex items-center gap-[6px] font-mono font-medium text-[11px] tracking-[0.12em] uppercase hover:text-[var(--brand)] transition-colors whitespace-nowrap bg-transparent border-0 cursor-pointer"
               >
-                <span className={`${pill} ${moreActive ? "bg-[var(--brand)] text-[var(--neutral-950)]" : ""}`}>More</span>
+                <span className={`${pill} ${moreActive ? "bg-[var(--brand)] text-white" : ""}`}>More</span>
                 <span
                   className="inline-flex transition-transform duration-150"
                   style={{ transform: moreOpen ? "rotate(180deg)" : "rotate(0deg)" }}
@@ -122,7 +122,7 @@ export default function Header() {
                     <Link
                       key={l.href}
                       href={l.href}
-                      className="px-4 py-[10px] font-mono font-medium text-[11px] tracking-[0.1em] uppercase text-[var(--text-primary)] hover:bg-[var(--brand)] hover:text-[var(--neutral-950)] transition-colors"
+                      className="px-4 py-[10px] font-mono font-medium text-[11px] tracking-[0.1em] uppercase text-[var(--text-primary)] hover:bg-[var(--brand)] hover:text-white transition-colors"
                     >
                       {l.label}
                     </Link>
@@ -133,7 +133,7 @@ export default function Header() {
 
             <Link
               href="/contact"
-              className="hidden lg:inline-flex items-center gap-[9px] px-[18px] py-[11px] bg-[var(--brand)] text-white border border-[var(--brand)] font-mono font-medium text-[10px] tracking-[0.12em] uppercase whitespace-nowrap hover:bg-white hover:text-[var(--coral-700)] transition-colors"
+              className="hidden lg:inline-flex items-center gap-[9px] px-[18px] py-[11px] bg-[var(--brand)] text-white border border-[var(--brand)] font-mono font-medium text-[10px] tracking-[0.12em] uppercase whitespace-nowrap hover:bg-white hover:text-[var(--brand)] transition-colors"
             >
               Drop us a line
             </Link>
