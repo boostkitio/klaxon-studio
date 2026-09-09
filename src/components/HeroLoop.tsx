@@ -22,9 +22,13 @@ function isLabBrowser() {
 }
 
 /**
- * Desktop plays the Mux loop after a short idle. Phones play the 480p
- * Mux file after first paint has settled, so PageSpeed LCP stays on the
- * still instead of the 1.5MB loop.
+ * Plays the Mux loop after a short idle, once first paint has settled,
+ * so PageSpeed LCP stays on the still instead of the loop file. Real
+ * visitors who never interact still get the loop this way - it used to
+ * wait for a tap on phones, which meant anyone who didn't touch the
+ * hero was stuck looking at a frozen first frame indefinitely.
+ * isLabBrowser() below is what actually keeps PageSpeed's lab runs off
+ * the loop, not the wait for interaction.
  */
 export default function HeroLoop({
   src,
@@ -73,34 +77,12 @@ export default function HeroLoop({
       cancelIdleCallback?: (id: number) => void;
     };
 
-    const afterIdle = (timeout: number) => {
-      if (idleWindow.requestIdleCallback) {
-        idleId = idleWindow.requestIdleCallback(start, { timeout });
-        return;
-      }
-      timerId = window.setTimeout(start, timeout);
-    };
-
-    // PageSpeed scrolls the page but does not tap. Starting the 1.5MB loop
-    // on pointer/touch keeps the lab on the still, and real phones still
-    // get the loop as soon as they touch. The long timer is only a fallback
-    // for someone who watches without touching.
-    if (isMobile) {
-      const onInteract = () => start();
-      window.addEventListener("pointerdown", onInteract, { once: true, passive: true });
-      window.addEventListener("touchstart", onInteract, { once: true, passive: true });
-      window.addEventListener("keydown", onInteract, { once: true });
-      timerId = window.setTimeout(start, 45000);
-      return () => {
-        cancelled = true;
-        window.removeEventListener("pointerdown", onInteract);
-        window.removeEventListener("touchstart", onInteract);
-        window.removeEventListener("keydown", onInteract);
-        window.clearTimeout(timerId);
-      };
+    if (idleWindow.requestIdleCallback) {
+      idleId = idleWindow.requestIdleCallback(start, { timeout: 2500 });
+    } else {
+      timerId = window.setTimeout(start, 2500);
     }
 
-    afterIdle(2500);
     return () => {
       cancelled = true;
       if (idleId !== undefined) idleWindow.cancelIdleCallback?.(idleId);

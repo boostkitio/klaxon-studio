@@ -68,9 +68,8 @@ export default function LondonPage() {
             <Label tone="on-dark">Klaxon Studio, Bermondsey, London</Label>
           </div>
           <h1 className="font-display font-[var(--kx-dw,700)] text-[clamp(31px,5.04vw,65px)] leading-[0.97] tracking-[-0.04em] max-w-[22ch] text-white">
-            A video production company for one of the{" "}
-            <span className="whitespace-normal sm:whitespace-nowrap">
-              world&apos;s{" "}
+            A video production company for one of the world&apos;s{" "}
+            <span className="whitespace-nowrap">
               <HighlightSweep bg="var(--brand)" color="#fff" trigger="page">
                 most demanding cities.
               </HighlightSweep>
