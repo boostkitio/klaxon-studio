@@ -1,0 +1,17 @@
+﻿{
+    "schemaVersion":  2,
+    "id":  "klaxon",
+    "canonicalPath":  "C:\\dev\\projects\\klaxon",
+    "kind":  "client",
+    "business":  "boostkit",
+    "clientId":  "klaxon",
+    "status":  "uncertain",
+    "criticality":  "medium",
+    "updateTier":  "C",
+    "productionDeploymentRequiresApproval":  true,
+    "context":  {
+                    "companyBrain":  "C:\\dev\\projects\\_TOOLS\\company-brain",
+                    "workstream":  "C:\\dev\\projects\\_TOOLS\\company-brain\\workstreams\\klaxon",
+                    "repositoryContext":  "C:\\dev\\projects\\klaxon\\docs\\agent-context\\project.md"
+                }
+}
