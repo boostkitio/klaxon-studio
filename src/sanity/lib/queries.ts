@@ -28,7 +28,7 @@ export const POST_QUERY = defineQuery(`
 `);
 
 export const POST_SLUGS_QUERY = defineQuery(`
-  *[_type == "post" && defined(slug.current)]{ "slug": slug.current }
+  *[_type == "post" && defined(slug.current)]{ "slug": slug.current, "updatedAt": _updatedAt }
 `);
 
 export const CLIENT_LOGOS_QUERY = defineQuery(`
