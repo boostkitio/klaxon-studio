@@ -20,8 +20,10 @@ const HERO_VIDEO_MOBILE =
   "https://stream.mux.com/c008Sb6JlZ2dtxU6XT68ApUu7cJn3RoSvgvPy8ViBtwU/480p.mp4";
 
 const HOME_TITLE = "Klaxon Studio | Video Production Company London";
+// Kept under 160 characters so Google shows it whole; the longer brand line
+// (202 characters) was being cut off mid-sentence in results.
 export const metadata = {
-  ...ogFor(HOME_TITLE, "Klaxon Studio is a full-service video production company in Bermondsey, London, making commercials, branded content, documentary, corporate, social and podcast film for brands that refuse to be ignored.", ""),
+  ...ogFor(HOME_TITLE, "Klaxon Studio is a full-service video production company in Bermondsey, London, making commercials, branded content, documentary, corporate and social film.", ""),
   title: { absolute: HOME_TITLE },
 };
 

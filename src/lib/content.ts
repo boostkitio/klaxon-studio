@@ -921,13 +921,23 @@ export const footerCols: FooterCol[] = [
     { label: "London", href: "/london" },
     { label: "Pricing", href: "/pricing" },
     { label: "Contact", href: "/contact" },
-  ] },
-  { title: "Resources", links: [
     { label: "FAQs", href: "/faqs" },
     { label: "Glossary", href: "/glossary" },
     { label: "Sustainability", href: "/sustainability" },
   ] },
-  { title: "Services", links: [
+  // The content types are the pages people search for by name ("corporate
+  // video production london"), and a footer link is the only sitewide link a
+  // service page can get. They share the row with the production services by
+  // folding the old Resources column into Studio, which keeps five columns.
+  { title: "Content", links: [
+    { label: "Corporate Video", href: "/services/corporate-video" },
+    { label: "B2B Video", href: "/services/b2b-video" },
+    { label: "Branded Content", href: "/services/branded-content" },
+    { label: "Documentary", href: "/services/documentary" },
+    { label: "Explainer Video", href: "/services/explainer-video" },
+    { label: "Automotive", href: "/services/automotive" },
+  ] },
+  { title: "Production", links: [
     { label: "Ideation & Creative", href: "/services/ideation" },
     { label: "Filming", href: "/services/filming" },
     { label: "Editing", href: "/services/editing" },
