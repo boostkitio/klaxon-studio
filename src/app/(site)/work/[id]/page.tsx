@@ -4,7 +4,9 @@ import { ButtonLink } from "@/components/ui/Button";
 import JsonLd from "@/components/JsonLd";
 import VideoEmbed from "@/components/VideoEmbed";
 import FaqAccordion from "@/components/FaqAccordion";
+import RelatedLinks from "@/components/RelatedLinks";
 import { workAll } from "@/lib/content";
+import { servicesForProject, relatedProjectsForProject } from "@/lib/related";
 import { muxThumbnail } from "@/lib/mux";
 import { videoObjectSchema, breadcrumbSchema, faqPageSchema } from "@/lib/schema";
 import { ogFor } from "@/lib/site";
@@ -82,7 +84,7 @@ export default async function ProjectDetailPage({
         </div>
       </section>
 
-      <section className="pb-[clamp(72px,9vw,120px)]">
+      <section className="pb-[clamp(28px,3.5vw,48px)]">
         <div
           className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)] grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] gap-[clamp(40px,5vw,72px)] items-start"
         >
@@ -111,6 +113,12 @@ export default async function ProjectDetailPage({
           </div>
         </div>
       </section>
+
+      <RelatedLinks
+        projects={relatedProjectsForProject(proj.id)}
+        services={servicesForProject(proj.id)}
+        posts={[]}
+      />
 
       {proj.faqs && (
         <section data-faq-end="1" className="bg-[var(--brand)] text-white pt-[clamp(56px,7vw,96px)] pb-[clamp(64px,8vw,112px)]">

@@ -100,8 +100,10 @@ const servicePostSlugs: Record<string, string[]> = {
 
   // Content types
   "branded-content": ["what-is-branded-content", "how-long-should-a-brand-film-be"],
-  "corporate-video": ["why-your-corporate-video-isnt-working", "how-to-brief-a-video-production-company"],
-  "b2b-video": ["why-most-b2b-video-is-forgettable", "why-your-corporate-video-isnt-working"],
+  // The ROI post was still unknown to Google ten weeks after launch (Oct 2026)
+  // with a single inbound link, so both of its natural homes link to it.
+  "corporate-video": ["why-your-corporate-video-isnt-working", "roi-for-a-corporate-video-production", "how-to-brief-a-video-production-company"],
+  "b2b-video": ["why-most-b2b-video-is-forgettable", "roi-for-a-corporate-video-production", "why-your-corporate-video-isnt-working"],
   documentary: ["the-case-for-the-brand-documentary", "how-long-should-a-brand-film-be"],
   product: ["animation-vs-live-action-explainer-video", "what-is-branded-content"],
   sport: ["the-case-for-the-brand-documentary", "how-to-build-a-video-content-strategy"],
@@ -124,6 +126,55 @@ export function relatedServicesFor(slug: string): ServiceDetail[] {
 /** Case studies for a service page, in curated order. */
 export function relatedProjectsFor(slug: string): Project[] {
   return (serviceProjectIds[slug] ?? [])
+    .map((id) => workAll.find((p) => p.id === id))
+    .filter((p): p is Project => Boolean(p));
+}
+
+/**
+ * Projects that belong with a service but are not among its three showcased
+ * case studies. They only feed the reverse (case study -> service) links.
+ */
+const extraProjectServiceSlugs: Record<string, string[]> = {
+  "subaru-branded-content": ["automotive", "branded-content"],
+  "peugeot-multi-camera": ["automotive"],
+};
+
+/** Most service links a single case study will carry. */
+const MAX_SERVICES_PER_PROJECT = 3;
+
+/**
+ * Reverse index: the services a case study links back to.
+ *
+ * The case studies are the most-linked pages on the site after the nav (every
+ * one is on /work) yet linked out to nothing, while the service pages they
+ * prove sat on as few as two inbound links. Derived from `serviceProjectIds`
+ * so the two directions cannot drift apart.
+ *
+ * Content types sort ahead of production services: "corporate video" and
+ * "automotive" are what a visitor reading a case study is shopping for, and
+ * they are the pages with search demand behind them.
+ */
+export function servicesForProject(projectId: string): ServiceDetail[] {
+  const slugs = [
+    ...(extraProjectServiceSlugs[projectId] ?? []),
+    ...Object.entries(serviceProjectIds)
+      .filter(([, ids]) => ids.includes(projectId))
+      .map(([slug]) => slug),
+  ];
+  const isContentType = (slug: string) => contentTypes.some((c) => c.slug === slug);
+  return [...new Set(slugs)]
+    .sort((a, b) => Number(isContentType(b)) - Number(isContentType(a)))
+    .slice(0, MAX_SERVICES_PER_PROJECT)
+    .map((s) => allServices.find((svc) => svc.slug === s))
+    .filter((svc): svc is ServiceDetail => Boolean(svc));
+}
+
+/** Other case studies proving the same services, for a case study page. */
+export function relatedProjectsForProject(projectId: string): Project[] {
+  const ids = servicesForProject(projectId).flatMap((svc) => serviceProjectIds[svc.slug] ?? []);
+  return [...new Set(ids)]
+    .filter((id) => id !== projectId)
+    .slice(0, 3)
     .map((id) => workAll.find((p) => p.id === id))
     .filter((p): p is Project => Boolean(p));
 }

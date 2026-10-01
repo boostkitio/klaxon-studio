@@ -16,8 +16,9 @@ const itemMeta =
   "block mt-[6px] font-mono font-medium text-[10px] tracking-[0.1em] uppercase text-[var(--text-muted)]";
 
 /**
- * The internal-link block on a service page: proof (case studies), sideways
- * moves (sibling services) and supporting reading (blog posts).
+ * The internal-link block on a service or case study page: proof (case
+ * studies), sideways moves (sibling services) and supporting reading (blog
+ * posts). Case study pages pass no posts.
  *
  * Sits above the FAQ section so the links are inside the main content flow
  * rather than stranded in the footer — footer links are sitewide boilerplate
@@ -32,12 +33,13 @@ export default function RelatedLinks({
   projects: Project[];
   posts: PostLink[];
 }) {
-  if (!services.length && !projects.length && !posts.length) return null;
+  const columns = [services, projects, posts].filter((c) => c.length > 0).length;
+  if (!columns) return null;
 
   return (
     <section className="pt-[clamp(40px,5vw,72px)] pb-[clamp(48px,6vw,80px)]">
       <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)]">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-[clamp(32px,4vw,56px)]">
+        <div className={`grid grid-cols-1 ${columns === 3 ? "md:grid-cols-3" : "md:grid-cols-2"} gap-[clamp(32px,4vw,56px)]`}>
           {projects.length > 0 && (
             <div className="min-w-0">
               <span className={columnLabel}>
