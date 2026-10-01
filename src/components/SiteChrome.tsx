@@ -6,6 +6,7 @@ import { websiteSchema, siteNavigationSchema } from "@/lib/schema";
 import JsonLd from "@/components/JsonLd";
 import ScrollToTop from "@/components/ScrollToTop";
 import DraftModePreview from "@/components/DraftModePreview";
+import ContactClickTracker from "@/components/ContactClickTracker";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -72,6 +73,7 @@ export default async function SiteChrome({ children }: { children: React.ReactNo
       <Script id="ga-gtag" strategy="lazyOnload">
         {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-T15XQVQSZG');`}
       </Script>
+      <ContactClickTracker />
       {/* Keep the preview machinery draft-mode-only so the public
           site stays fully static and the read token never ships to visitors. */}
       {isDraftMode && <DraftModePreview />}

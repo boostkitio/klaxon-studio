@@ -4,23 +4,9 @@ import { useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/Button";
 import { HighlightWipe } from "@/components/ScrollHighlight";
 import { contactRows } from "@/lib/content";
+import { gaEvent } from "@/lib/analytics";
 
 type FormState = "idle" | "sending" | "sent" | "error";
-
-// GA is loaded by the plain gtag snippet in SiteChrome, not by the
-// @next/third-parties <GoogleAnalytics> component, so that package's
-// sendGAEvent never initialises and silently drops every event. Queue the
-// event on dataLayer directly instead. gtag.js only reads Arguments objects,
-// not arrays, hence the wrapper function.
-function trackLead() {
-  const w = window as Window & { dataLayer?: unknown[] };
-  const dataLayer = (w.dataLayer = w.dataLayer || []);
-  const gtag = function () {
-    // eslint-disable-next-line prefer-rest-params
-    dataLayer.push(arguments);
-  } as (...args: unknown[]) => void;
-  gtag("event", "generate_lead", { form_name: "contact" });
-}
 
 export default function ContactPage() {
   const [state, setState] = useState<FormState>("idle");
@@ -51,7 +37,7 @@ export default function ContactPage() {
       // event in GA4 or conversions stay invisible. Never let an analytics
       // failure surface as a failed submission: the email has already sent.
       try {
-        trackLead();
+        gaEvent("generate_lead", { form_name: "contact" });
       } catch {
         // Swallowed deliberately, see above.
       }
