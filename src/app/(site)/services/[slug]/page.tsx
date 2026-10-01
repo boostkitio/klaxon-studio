@@ -140,10 +140,10 @@ export default async function ServiceDetailPage({
 
       <section data-faq-end="1" className="bg-[var(--brand)] text-white pt-[clamp(32px,4vw,56px)] pb-[clamp(56px,7vw,96px)]">
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)]">
-          <span className="flex items-center gap-[11px] font-mono font-medium text-[11px] tracking-[0.12em] uppercase text-white mb-[clamp(26px,3.2vw,42px)]">
+          <h2 className="flex items-center gap-[11px] font-mono font-medium text-[11px] tracking-[0.12em] uppercase text-white mb-[clamp(26px,3.2vw,42px)]">
             <span className="w-[4px] h-[1em] bg-white" />
             FAQs
-          </span>
+          </h2>
           <FaqAccordion items={svc.faqs} />
         </div>
       </section>

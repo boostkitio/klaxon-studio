@@ -43,7 +43,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     .withConfig({ stega: false })
     .fetch<Post | null>(POST_QUERY, { slug }, { token: process.env.SANITY_API_READ_TOKEN, perspective: "published" });
   if (!post) return {};
-  return ogFor(post.title, post.metaDesc, `/blog/${post.slug}`);
+  // Descriptions are written in the Studio with no length limit. Past ~160
+  // characters Google cuts them mid-word, so trim at the last whole word.
+  const description =
+    post.metaDesc.length > 160
+      ? `${post.metaDesc.slice(0, 157).replace(/\s+\S*$/, "")}...`
+      : post.metaDesc;
+  const meta = ogFor(post.title, description, `/blog/${post.slug}`);
+  // Same rule as the case studies: drop the " | Klaxon Studio" suffix where
+  // it would push the title past the ~60 characters Google shows.
+  return `${post.title} | Klaxon Studio`.length > 60 ? { ...meta, title: { absolute: post.title } } : meta;
 }
 
 const portableComponents: PortableTextComponents = {

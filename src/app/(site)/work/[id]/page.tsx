@@ -19,7 +19,14 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const { id } = await params;
   const proj = workAll.find((p) => p.id === id);
   if (!proj) return {};
-  return ogFor(`${proj.client}: ${proj.title}`, proj.lead, `/work/${proj.id}`);
+  // proj.lead alone is a 35-65 character strapline: too short to fill a
+  // search snippet, and it names neither the client nor who made the film.
+  const title = `${proj.client}: ${proj.title}`;
+  const description = `${proj.lead} ${proj.client} case study by Klaxon Studio, a video production company in London.`;
+  const meta = ogFor(title, description, `/work/${proj.id}`);
+  // The root template appends " | Klaxon Studio"; drop it where that would
+  // push the title past the ~60 characters Google shows.
+  return `${title} | Klaxon Studio`.length > 60 ? { ...meta, title: { absolute: title } } : meta;
 }
 
 export default async function ProjectDetailPage({
@@ -123,10 +130,10 @@ export default async function ProjectDetailPage({
       {proj.faqs && (
         <section data-faq-end="1" className="bg-[var(--brand)] text-white pt-[clamp(56px,7vw,96px)] pb-[clamp(64px,8vw,112px)]">
           <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)]">
-            <span className="flex items-center gap-[11px] font-mono font-medium text-[11px] tracking-[0.12em] uppercase text-white mb-[clamp(24px,3vw,38px)]">
+            <h2 className="flex items-center gap-[11px] font-mono font-medium text-[11px] tracking-[0.12em] uppercase text-white mb-[clamp(24px,3vw,38px)]">
               <span className="w-[4px] h-[1em] bg-white" />
               FAQs
-            </span>
+            </h2>
             <FaqAccordion items={proj.faqs} />
           </div>
         </section>

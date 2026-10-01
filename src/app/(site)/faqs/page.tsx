@@ -40,9 +40,9 @@ export default function FaqsPage() {
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)] flex flex-col gap-[clamp(44px,5.5vw,72px)]">
           {faqsData.sections.map((grp) => (
             <div key={grp.heading}>
-              <span className="block font-mono font-medium text-[11px] tracking-[0.14em] uppercase text-white/78 mb-[clamp(14px,1.6vw,20px)]">
+              <h2 className="block font-mono font-medium text-[11px] tracking-[0.14em] uppercase text-white/78 mb-[clamp(14px,1.6vw,20px)]">
                 {grp.heading}
-              </span>
+              </h2>
               <FaqAccordion items={grp.qas} />
             </div>
           ))}
