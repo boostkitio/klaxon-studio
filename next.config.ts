@@ -93,6 +93,15 @@ const nextConfig: NextConfig = {
       { source: "/our-work", destination: "/work" },
     ];
     return [
+      // Vercel serves production on this default alias as well as on
+      // klaxon.studio. It is public and crawlable, so send it to the real
+      // domain rather than leave a second copy of the site in Google's reach.
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "klaxon-studio-site-two.vercel.app" }],
+        destination: "https://klaxon.studio/:path*",
+        permanent: true,
+      },
       // Each legacy rule twice: with the trailing slash WordPress used, and without.
       ...legacy.flatMap(({ source, destination }) => [
         { source: `${source}/`, destination, permanent: true },
