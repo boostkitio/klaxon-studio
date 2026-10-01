@@ -163,6 +163,32 @@ export function serviceSchema(svc: ServiceDetail): Json {
 }
 
 /**
+ * The London page as a Service: video production, provided by the business,
+ * in the city, with each linked service page as an offer. Gives Google the
+ * same "this is a London video production company" statement in markup that
+ * the page makes in copy.
+ */
+export function londonServiceSchema(offered: ServiceDetail[]): Json {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Video production in London",
+    serviceType: "Video production",
+    url: `${SITE_URL}/london`,
+    provider: { "@id": BUSINESS_ID },
+    areaServed: { "@type": "City", name: "London" },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Video production services in London",
+      itemListElement: offered.map((svc) => ({
+        "@type": "Offer",
+        itemOffered: { "@type": "Service", name: svc.title, url: `${SITE_URL}/services/${svc.slug}` },
+      })),
+    },
+  };
+}
+
+/**
  * The published starting-point prices. `price` is the floor of an open-ended
  * band, so these are declared as PriceSpecification minimums rather than a
  * fixed price. The page says "from £X+", and the markup must say the same.

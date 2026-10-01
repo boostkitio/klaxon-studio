@@ -90,8 +90,11 @@ export default async function Home() {
             </HighlightSweep>
           </h1>
           <p className="mt-[clamp(22px,3vw,30px)] max-w-[50ch] text-[clamp(14px,1.3vw,15px)] leading-[1.55] text-white/82">
-            We&apos;re a full-service video production company in London, making content for ambitious brands and
-            industry-leading organisations.
+            We&apos;re a full-service{" "}
+            <Link href="/london" className="underline underline-offset-[3px] decoration-white/40 hover:decoration-white transition-colors">
+              video production company in London
+            </Link>
+            , making content for ambitious brands and industry-leading organisations.
           </p>
           <div className="flex flex-wrap gap-[14px] mt-[clamp(28px,4vw,40px)]">
             <ButtonLink href="#showreel" variant="light" icon={false}>

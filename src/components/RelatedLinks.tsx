@@ -3,16 +3,16 @@ import type { ServiceDetail, Project } from "@/lib/content";
 
 type PostLink = { slug: string; title: string };
 
-const columnLabel =
+export const columnLabel =
   "flex items-center gap-[11px] font-mono font-medium text-[11px] tracking-[0.12em] uppercase text-[var(--text-muted)] mb-[clamp(18px,2.2vw,26px)]";
 
-const itemLink =
+export const itemLink =
   "group block border-t border-[var(--border-subtle)] py-[15px] transition-colors hover:border-[var(--brand)]";
 
-const itemTitle =
+export const itemTitle =
   "block font-display font-[var(--kx-dw,700)] text-[clamp(15px,1.5vw,18px)] leading-[1.2] tracking-[-0.02em] transition-colors group-hover:text-[var(--brand)]";
 
-const itemMeta =
+export const itemMeta =
   "block mt-[6px] font-mono font-medium text-[10px] tracking-[0.1em] uppercase text-[var(--text-muted)]";
 
 /**

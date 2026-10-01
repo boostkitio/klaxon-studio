@@ -918,7 +918,9 @@ export const footerCols: FooterCol[] = [
     { label: "Work", href: "/work" },
     { label: "Services", href: "/services" },
     { label: "About", href: "/about" },
-    { label: "London", href: "/london" },
+    // Spelled out because this is the only sitewide link to the London page,
+    // and "London" alone tells a search engine nothing about what is there.
+    { label: "London video production", href: "/london" },
     { label: "Pricing", href: "/pricing" },
     { label: "Contact", href: "/contact" },
     { label: "FAQs", href: "/faqs" },
@@ -990,6 +992,18 @@ export const londonData: LondonData = {
     {
       "q": "Can you help with filming permits for London locations?",
       "a": "Yes. London has specific permitting requirements - the Royal Parks, TfL-managed locations, the City of London and many private locations all have their own processes. Navigating these efficiently is something we do regularly and are well practised at. We handle the permit process as part of our production management service."
+    },
+    {
+      "q": "How much does video production cost in London?",
+      "a": "Every project is priced from scratch, because crew size, shoot days, locations, talent and post-production all move the number. Our [pricing guide](/pricing) publishes real starting points for a single shoot day with an edit, and for crew and kit only, so you can sense-check a budget before you speak to us."
+    },
+    {
+      "q": "Can we hire a London film crew without the full production service?",
+      "a": "Yes. We supply vetted, experienced crew on their own, from DoPs and camera operators to sound, lighting and grip, for shoots in London and anywhere in the UK. See [film crew hire](/services/film-crew-hire) or, for productions coming in from overseas, [UK production services](/services/uk-production-services)."
+    },
+    {
+      "q": "How do we get started with a London video production company?",
+      "a": "Send us a brief, a budget or just the bones of an idea through the [contact page](/contact). We reply within one working day, and the first conversation costs nothing."
     }
   ]
 };

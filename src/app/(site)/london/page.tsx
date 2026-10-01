@@ -8,8 +8,11 @@ import JsonLd from "@/components/JsonLd";
 import HeroLoop from "@/components/HeroLoop";
 import HeroPoster from "@/components/HeroPoster";
 import VideoEmbed from "@/components/VideoEmbed";
-import { londonData } from "@/lib/content";
-import { faqPageSchema, breadcrumbSchema } from "@/lib/schema";
+import Link from "next/link";
+import ArrowLink from "@/components/ui/ArrowLink";
+import { columnLabel, itemLink, itemTitle, itemMeta } from "@/components/RelatedLinks";
+import { londonData, services, contentTypes, workAll, contactRows } from "@/lib/content";
+import { faqPageSchema, breadcrumbSchema, londonServiceSchema } from "@/lib/schema";
 import { ogFor } from "@/lib/site";
 import { SHOWREEL_POSTER, SHOWREEL_VIMEO } from "@/lib/showreel";
 import { heroPosterHref } from "@/lib/mux";
@@ -32,6 +35,43 @@ export const metadata = {
   title: { absolute: LONDON_TITLE },
 };
 
+// Everything on this page below the intro is drawn from copy that already
+// exists elsewhere on the site (service straplines and leads, case study
+// leads, the studio address), so it cannot drift from those pages.
+const allServices = [...contentTypes, ...services];
+const pick = <T extends { slug: string }>(list: T[], slugs: string[]) =>
+  slugs.map((s) => list.find((x) => x.slug === s)).filter((x): x is T => Boolean(x));
+
+const londonServices = pick(allServices, [
+  "corporate-video",
+  "branded-content",
+  "b2b-video",
+  "social-content",
+  "documentary",
+  "product",
+  "explainer-video",
+  "podcast",
+  "automotive",
+  "film-crew-hire",
+  "editing",
+  "uk-production-services",
+]);
+
+const londonProcess = pick(allServices, ["ideation", "production-management", "filming", "editing"]);
+
+const londonProjects = [
+  "shell",
+  "barclays-social-advice",
+  "salesforce",
+  "historic-england-bruce-grove",
+  "aston-martin",
+  "yorkshire-tea-branded-content",
+]
+  .map((id) => workAll.find((p) => p.id === id))
+  .filter((p): p is (typeof workAll)[number] => Boolean(p));
+
+const studio = contactRows.find((r) => r.label === "Studio");
+
 export default function LondonPage() {
   return (
     <main>
@@ -43,6 +83,7 @@ export default function LondonPage() {
       />
       <JsonLd
         data={[
+          londonServiceSchema(londonServices),
           faqPageSchema(londonData.faqs),
           breadcrumbSchema([{ name: "London", path: "/london" }]),
         ]}
@@ -133,6 +174,10 @@ export default function LondonPage() {
             <Image src="/uploads/WhatsApp Image 2026-07-10 at 11.57.29 (1).webp" alt="London production still" fill sizes="50vw" className="object-cover" />
           </div>
           <div className="flex flex-col gap-[22px] text-[clamp(14px,1.32vw,15.5px)] leading-[1.64] text-[var(--text-secondary)]">
+            <h2 className={columnLabel}>
+              <span className="w-[4px] h-[1em] bg-[var(--brand)]" />
+              Video production in London
+            </h2>
             {londonData.body.map((para, i) => (
               <p key={i}>{para}</p>
             ))}
@@ -140,31 +185,97 @@ export default function LondonPage() {
         </div>
       </section>
 
+      {/* Everything below links out. This page used to be a dead end: no
+          route from it to a single service or case study, on the one page
+          Google sends "video production company london" to. */}
       <section className="pb-[clamp(40px,5vw,64px)]">
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)]">
-          <span className="flex items-center gap-[11px] font-mono font-medium text-[11px] tracking-[0.12em] uppercase text-[var(--text-muted)] mb-[clamp(18px,2.2vw,26px)]">
+          <h2 className={columnLabel}>
             <span className="w-[4px] h-[1em] bg-[var(--brand)]" />
             What we make in London
-          </span>
-          <div className="flex flex-wrap gap-[10px]">
-            {londonData.includes.map((inc) => (
-              <span
-                key={inc}
-                className="inline-flex items-center px-[14px] py-[9px] border border-[var(--border-subtle)] font-mono font-medium text-[11px] tracking-[0.06em] uppercase text-[var(--text-secondary)]"
-              >
-                {inc}
-              </span>
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-[clamp(32px,4vw,56px)]">
+            {londonServices.map((s) => (
+              <Link key={s.slug} href={s.href} className={itemLink}>
+                <span className={itemTitle}>{s.title}</span>
+                <span className={itemMeta}>{s.desc}</span>
+              </Link>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="pb-[clamp(40px,5vw,64px)]">
+        <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)]">
+          <h2 className={columnLabel}>
+            <span className="w-[4px] h-[1em] bg-[var(--brand)]" />
+            Work from our London studio
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-[clamp(32px,4vw,56px)]">
+            {londonProjects.map((p) => (
+              <Link key={p.id} href={p.href} className={itemLink}>
+                <span className={itemTitle}>{p.client}</span>
+                <span className={itemMeta}>{p.title}</span>
+                <span className="block mt-[8px] text-[clamp(13px,1.2vw,14px)] leading-[1.5] text-[var(--text-secondary)]">
+                  {p.lead}
+                </span>
+              </Link>
+            ))}
+          </div>
+          <div className="mt-[clamp(24px,3vw,36px)]">
+            <ArrowLink href="/work">See all our work</ArrowLink>
+          </div>
+        </div>
+      </section>
+
+      <section className="pb-[clamp(40px,5vw,64px)]">
+        <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)]">
+          <h2 className={columnLabel}>
+            <span className="w-[4px] h-[1em] bg-[var(--brand)]" />
+            How a London production runs
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-[clamp(32px,4vw,56px)]">
+            {londonProcess.map((s, i) => (
+              <Link key={s.slug} href={s.href} className={itemLink}>
+                <span className={itemMeta}>
+                  {String(i + 1).padStart(2, "0")} / {s.title}
+                </span>
+                <span className="block mt-[8px] text-[clamp(14px,1.32vw,15.5px)] leading-[1.6] text-[var(--text-secondary)] transition-colors group-hover:text-[var(--brand)]">
+                  {s.lead}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="pb-[clamp(48px,6vw,80px)]">
+        <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)]">
+          <h2 className={columnLabel}>
+            <span className="w-[4px] h-[1em] bg-[var(--brand)]" />
+            Our Bermondsey studio
+          </h2>
+          <p className="max-w-[62ch] text-[clamp(14px,1.32vw,15.5px)] leading-[1.64] text-[var(--text-secondary)]">
+            Klaxon Studio is at {studio?.value}, a short walk from Bermondsey station on the Jubilee line.
+            We work with clients in finance, automotive, broadcast, heritage, food and drink, sport, health and
+            the charity sector, across London and well beyond it.
+          </p>
+          <div className="flex flex-wrap gap-x-[28px] gap-y-[12px] mt-[clamp(20px,2.4vw,28px)]">
+            {studio && (
+              <ArrowLink href={studio.href}>Get directions</ArrowLink>
+            )}
+            <ArrowLink href="/contact">Contact the studio</ArrowLink>
+            <ArrowLink href="/pricing">See pricing</ArrowLink>
           </div>
         </div>
       </section>
 
       <section data-faq-end="1" className="bg-[var(--brand)] text-white pt-[clamp(56px,7vw,96px)] pb-[clamp(64px,8vw,112px)]">
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)]">
-          <span className="flex items-center gap-[11px] font-mono font-medium text-[11px] tracking-[0.12em] uppercase text-white mb-[clamp(24px,3vw,38px)]">
+          <h2 className="flex items-center gap-[11px] font-mono font-medium text-[11px] tracking-[0.12em] uppercase text-white mb-[clamp(24px,3vw,38px)]">
             <span className="w-[4px] h-[1em] bg-white" />
             London FAQs
-          </span>
+          </h2>
           <FaqAccordion items={londonData.faqs} />
         </div>
       </section>
