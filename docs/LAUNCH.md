@@ -87,5 +87,14 @@ hard-coded in `src/lib/content.ts`.
 
 ## 6. Retire the Old Infrastructure
 
-After a stable week: cancel the old WordPress hosting, and delete the `klxn` Vercel project +
-`boostkitio/klxn` repo if the previous rebuild is no longer wanted as reference.
+After a stable week: cancel the old WordPress hosting.
+
+Done 2026-10-01: the earlier builds were deleted so that `klaxon-studio` is the only Klaxon site
+project. Removed Vercel projects `klxn`, `klxn-review`, `klaxon-legacy` and `klaxon-un6l`, and
+GitHub repos `boostkitio/klxn`, `boostkitio/klxn-review` and `boostkitio/klaxon`. Full mirror
+clones of the three repos are in `C:\dev\projects\_BACKUPS\klaxon-old-repos-2026-10-01`.
+`klaxon-plans` is a separate project and was left alone.
+
+Still open: `klaxon-studio-site.vercel.app` is an early build of this site in a Vercel account
+outside the Boostkit team. It is public and indexed by Google, and needs deleting from whichever
+account owns it.
