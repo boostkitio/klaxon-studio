@@ -68,28 +68,39 @@ const nextConfig: NextConfig = {
     // allows 'unsafe-inline' above, so this doesn't touch the CSP.
     inlineCss: true,
   },
+  // Next would otherwise strip a trailing slash with its own 308 before any
+  // rule below runs, so every old WordPress URL (they all ended in a slash)
+  // took two hops to arrive. With that off, the rules below handle the slash
+  // themselves: legacy URLs go straight to their destination, and the final
+  // rule strips the slash from everything else, as Next did.
+  skipTrailingSlashRedirect: true,
   async redirects() {
-    return [
+    const legacy = [
       // Old WordPress page URLs
-      { source: "/sitemap_index.xml", destination: "/sitemap.xml", permanent: true },
-      { source: "/about-us", destination: "/about", permanent: true },
-      { source: "/contact-us", destination: "/contact", permanent: true },
-      { source: "/our-work-showreel", destination: "/work", permanent: true },
-      { source: "/healthcare-video-production", destination: "/services/health-sector", permanent: true },
-      { source: "/terms-conditions", destination: "/terms", permanent: true },
-      { source: "/cookie-notice", destination: "/privacy-policy", permanent: true },
-      { source: "/temp-title-post", destination: "/", permanent: true },
-      { source: "/template-format", destination: "/", permanent: true },
-      { source: "/category/:slug*", destination: "/blog", permanent: true },
+      { source: "/sitemap_index.xml", destination: "/sitemap.xml" },
+      { source: "/about-us", destination: "/about" },
+      { source: "/contact-us", destination: "/contact" },
+      { source: "/our-work-showreel", destination: "/work" },
+      { source: "/healthcare-video-production", destination: "/services/health-sector" },
+      { source: "/terms-conditions", destination: "/terms" },
+      { source: "/cookie-notice", destination: "/privacy-policy" },
+      { source: "/temp-title-post", destination: "/" },
+      { source: "/template-format", destination: "/" },
       // Retired case studies go to the work index (must precede the generic rule)
-      ...retiredWorkSlugs.map((slug) => ({
-        source: `/our-work/${slug}`,
-        destination: "/work",
-        permanent: true,
-      })),
+      ...retiredWorkSlugs.map((slug) => ({ source: `/our-work/${slug}`, destination: "/work" })),
       // Everything else maps 1:1 — new work slugs deliberately reuse the old ones
-      { source: "/our-work/:slug", destination: "/work/:slug", permanent: true },
-      { source: "/our-work", destination: "/work", permanent: true },
+      { source: "/our-work/:slug", destination: "/work/:slug" },
+      { source: "/our-work", destination: "/work" },
+    ];
+    return [
+      // Each legacy rule twice: with the trailing slash WordPress used, and without.
+      ...legacy.flatMap(({ source, destination }) => [
+        { source: `${source}/`, destination, permanent: true },
+        { source, destination, permanent: true },
+      ]),
+      { source: "/category/:slug*", destination: "/blog", permanent: true },
+      // Trailing slash on any other path: strip it.
+      { source: "/:path(.+)/", destination: "/:path", permanent: true },
     ];
   },
   async headers() {
