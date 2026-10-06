@@ -1,20 +1,40 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import { SITE_URL, OG_BASE } from "@/lib/site";
 import "./globals.css";
 
-const inter = Inter({
+// Latin-only woff2 files from Fontsource (@fontsource/inter and
+// @fontsource/jetbrains-mono 5.3.0), the same weights and normal style
+// previously requested from next/font/google. Kept in the repo so the
+// build does not fetch Google Fonts. OFL licences sit beside the files.
+const inter = localFont({
+  src: [
+    { path: "./fonts/inter/inter-latin-400-normal.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/inter/inter-latin-500-normal.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/inter/inter-latin-700-normal.woff2", weight: "700", style: "normal" },
+    { path: "./fonts/inter/inter-latin-800-normal.woff2", weight: "800", style: "normal" },
+  ],
   variable: "--font-inter",
-  subsets: ["latin"],
-  weight: ["400", "500", "700", "800"],
   display: "swap",
+  adjustFontFallback: "Arial",
 });
 
-const jetbrainsMono = JetBrains_Mono({
+const jetbrainsMono = localFont({
+  src: [
+    {
+      path: "./fonts/jetbrains-mono/jetbrains-mono-latin-400-normal.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./fonts/jetbrains-mono/jetbrains-mono-latin-500-normal.woff2",
+      weight: "500",
+      style: "normal",
+    },
+  ],
   variable: "--font-jetbrains-mono",
-  subsets: ["latin"],
-  weight: ["400", "500"],
   display: "swap",
+  adjustFontFallback: "Arial",
 });
 
 const DESCRIPTION =
