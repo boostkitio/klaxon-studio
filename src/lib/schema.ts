@@ -137,21 +137,26 @@ export function blogPostingSchema(post: {
   };
 }
 
-export function serviceSchema(svc: ServiceDetail): Json {
+/**
+ * `name` and `description` are the search-facing heading and description from
+ * service-seo.ts. The design headline and strapline ("B2B Video", "Content
+ * that builds trust...") name neither the service nor the place.
+ */
+export function serviceSchema(svc: ServiceDetail, seo: { name: string; description: string }): Json {
   return {
     "@context": "https://schema.org",
     "@type": "Service",
-    name: svc.title,
-    description: svc.desc,
+    name: seo.name,
+    description: seo.description,
     url: `${SITE_URL}/services/${svc.slug}`,
-    serviceType: svc.title,
+    serviceType: seo.name,
     provider: { "@id": BUSINESS_ID },
     areaServed: ["London", "South East England", "United Kingdom"],
     ...(svc.includes.length
       ? {
           hasOfferCatalog: {
             "@type": "OfferCatalog",
-            name: `${svc.title}: what's included`,
+            name: `${seo.name}: what's included`,
             itemListElement: svc.includes.map((item) => ({
               "@type": "Offer",
               itemOffered: { "@type": "Service", name: item },
@@ -168,7 +173,7 @@ export function serviceSchema(svc: ServiceDetail): Json {
  * same "this is a London video production company" statement in markup that
  * the page makes in copy.
  */
-export function londonServiceSchema(offered: ServiceDetail[]): Json {
+export function londonServiceSchema(offered: { name: string; slug: string }[]): Json {
   return {
     "@context": "https://schema.org",
     "@type": "Service",
@@ -182,7 +187,7 @@ export function londonServiceSchema(offered: ServiceDetail[]): Json {
       name: "Video production services in London",
       itemListElement: offered.map((svc) => ({
         "@type": "Offer",
-        itemOffered: { "@type": "Service", name: svc.title, url: `${SITE_URL}/services/${svc.slug}` },
+        itemOffered: { "@type": "Service", name: svc.name, url: `${SITE_URL}/services/${svc.slug}` },
       })),
     },
   };

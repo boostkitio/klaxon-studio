@@ -13,7 +13,7 @@ if (process.env.VERCEL || process.env.CI) process.exit(0);
 try {
   // Node strips the types from these on import (Node 22.18+).
   const { workAll, services, contentTypes } = await import("../src/lib/content.ts");
-  const { SEO_TITLES, SEO_DESCRIPTIONS } = await import("../src/lib/service-seo.ts");
+  const { SEO_TITLES, SEO_DESCRIPTIONS, SEO_HEADINGS, SEO_INTROS } = await import("../src/lib/service-seo.ts");
   const { pageHashes } = await import("../src/lib/page-hashes.ts");
 
   const file = new URL("../src/lib/sitemap-dates.json", import.meta.url);
@@ -23,6 +23,8 @@ try {
     services: [...services, ...contentTypes],
     seoTitles: SEO_TITLES,
     seoDescriptions: SEO_DESCRIPTIONS,
+    seoHeadings: SEO_HEADINGS,
+    seoIntros: SEO_INTROS,
   });
   const today = new Date().toISOString().slice(0, 10);
 

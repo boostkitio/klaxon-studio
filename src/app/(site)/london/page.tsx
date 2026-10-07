@@ -14,6 +14,7 @@ import { columnLabel, itemLink, itemTitle, itemMeta } from "@/components/Related
 import { londonData, services, contentTypes, workAll, contactRows } from "@/lib/content";
 import { faqPageSchema, breadcrumbSchema, londonServiceSchema } from "@/lib/schema";
 import { ogFor } from "@/lib/site";
+import { serviceHeading } from "@/lib/service-seo";
 import { SHOWREEL_POSTER, SHOWREEL_VIMEO } from "@/lib/showreel";
 import { heroPosterHref } from "@/lib/mux";
 import { vimeoPosterSrcSet } from "@/lib/vimeo";
@@ -83,7 +84,7 @@ export default function LondonPage() {
       />
       <JsonLd
         data={[
-          londonServiceSchema(londonServices),
+          londonServiceSchema(londonServices.map((s) => ({ name: serviceHeading(s), slug: s.slug }))),
           faqPageSchema(londonData.faqs),
           breadcrumbSchema([{ name: "London", path: "/london" }]),
         ]}
@@ -197,7 +198,7 @@ export default function LondonPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-[clamp(32px,4vw,56px)]">
             {londonServices.map((s) => (
               <Link key={s.slug} href={s.href} className={itemLink}>
-                <span className={itemTitle}>{s.title}</span>
+                <span className={itemTitle}>{serviceHeading(s)}</span>
                 <span className={itemMeta}>{s.desc}</span>
               </Link>
             ))}
