@@ -7,6 +7,7 @@ import ImageSlot from "@/components/ImageSlot";
 import JsonLd from "@/components/JsonLd";
 import { blogPostingSchema, breadcrumbSchema } from "@/lib/schema";
 import { servicesForPost } from "@/lib/related";
+import { serviceHeading } from "@/lib/service-seo";
 import { ogFor } from "@/lib/site";
 import { client } from "@/sanity/lib/client";
 import { sanityFetch } from "@/sanity/lib/fetch";
@@ -172,7 +173,7 @@ export default async function BlogPostPage({
                     className="group block border-t border-[var(--border-subtle)] py-[15px] transition-colors hover:border-[var(--brand)]"
                   >
                     <span className="block font-display font-[var(--kx-dw,700)] text-[clamp(15px,1.5vw,18px)] leading-[1.2] tracking-[-0.02em] transition-colors group-hover:text-[var(--brand)]">
-                      {svc.title}
+                      {serviceHeading(svc)}
                     </span>
                     <span className="block mt-[6px] font-mono font-medium text-[10px] tracking-[0.1em] uppercase text-[var(--text-muted)]">
                       {svc.desc}

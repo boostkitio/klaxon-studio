@@ -5,6 +5,7 @@ import CountUp from "@/components/CountUp";
 import { pricingFaqItems } from "@/lib/content";
 import { pricingSchema, faqPageSchema, breadcrumbSchema } from "@/lib/schema";
 import { ogFor } from "@/lib/site";
+import { pricingTiers as tiers } from "@/lib/pricing";
 
 const TITLE = "Video Production Pricing | Klaxon Studio London";
 
@@ -12,21 +13,6 @@ export const metadata = {
   ...ogFor(TITLE, "Honest guidance on video production pricing: day rates, typical project bands and what shapes the cost of a production.", "/pricing"),
   title: { absolute: TITLE },
 };
-
-/** Single source of truth for the tiers: rendered below and marked up as
- * Offers, so the SERP price can never drift from the page price. */
-const tiers = [
-  {
-    label: "Starting point",
-    price: "£4,500",
-    items: ["Single shoot day", "One location", "Small crew", "One edited 1-2 minute film", "Social cutdowns, versioned for your channels"],
-  },
-  {
-    label: "Crew & kit only",
-    price: "£2,000",
-    items: ["Single shoot day", "Van-load of equipment", "Raw footage handed over at the end of the day"],
-  },
-];
 
 const costDrivers = [
   { num: "01", title: "Crew size", desc: "A simple interview needs two people. A large commercial might need fifteen or more. Crew size is driven by the brief, and the right crew for the job is always the most efficient one. Under-crewing a shoot tends to cost a project more than the cost saving on the day." },

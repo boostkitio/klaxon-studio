@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/site";
 import { workAll, services, contentTypes } from "@/lib/content";
-import { SEO_TITLES, SEO_DESCRIPTIONS } from "@/lib/service-seo";
+import { SEO_TITLES, SEO_DESCRIPTIONS, SEO_HEADINGS, SEO_INTROS } from "@/lib/service-seo";
 import { pageHashes } from "@/lib/page-hashes";
 import sitemapDates from "@/lib/sitemap-dates.json";
 import { client } from "@/sanity/lib/client";
@@ -20,6 +20,8 @@ const hashes = pageHashes({
   services: [...services, ...contentTypes],
   seoTitles: SEO_TITLES,
   seoDescriptions: SEO_DESCRIPTIONS,
+  seoHeadings: SEO_HEADINGS,
+  seoIntros: SEO_INTROS,
 });
 const dates: Record<string, { hash: string; date: string } | undefined> = sitemapDates;
 const lastModifiedFor = (path: string) =>

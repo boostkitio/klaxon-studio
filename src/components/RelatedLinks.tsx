@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ServiceDetail, Project } from "@/lib/content";
+import { serviceHeading } from "@/lib/service-seo";
 
 type PostLink = { slug: string; title: string };
 
@@ -63,7 +64,7 @@ export default function RelatedLinks({
               </span>
               {services.map((s) => (
                 <Link key={s.slug} href={s.href} className={itemLink}>
-                  <span className={itemTitle}>{s.title}</span>
+                  <span className={itemTitle}>{serviceHeading(s)}</span>
                   <span className={itemMeta}>{s.desc}</span>
                 </Link>
               ))}
