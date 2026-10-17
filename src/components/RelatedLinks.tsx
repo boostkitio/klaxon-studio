@@ -18,7 +18,10 @@ export const itemMeta =
 /**
  * The internal-link block on a service or case study page: proof (case
  * studies), sideways moves (sibling services) and supporting reading (blog
- * posts). Case study pages pass no posts.
+ * posts).
+ *
+ * Column labels are h2s (styled as labels) so the page outline names what
+ * each group of links is about.
  *
  * Sits above the FAQ section so the links are inside the main content flow
  * rather than stranded in the footer — footer links are sitewide boilerplate
@@ -42,10 +45,10 @@ export default function RelatedLinks({
         <div className={`grid grid-cols-1 ${columns === 3 ? "md:grid-cols-3" : "md:grid-cols-2"} gap-[clamp(32px,4vw,56px)]`}>
           {projects.length > 0 && (
             <div className="min-w-0">
-              <span className={columnLabel}>
+              <h2 className={columnLabel}>
                 <span className="w-[4px] h-[1em] bg-[var(--brand)]" />
                 Selected work
-              </span>
+              </h2>
               {projects.map((p) => (
                 <Link key={p.id} href={p.href} className={itemLink}>
                   <span className={itemTitle}>{p.client}</span>
@@ -57,10 +60,10 @@ export default function RelatedLinks({
 
           {services.length > 0 && (
             <div className="min-w-0">
-              <span className={columnLabel}>
+              <h2 className={columnLabel}>
                 <span className="w-[4px] h-[1em] bg-[var(--brand)]" />
                 Related services
-              </span>
+              </h2>
               {services.map((s) => (
                 <Link key={s.slug} href={s.href} className={itemLink}>
                   <span className={itemTitle}>{s.title}</span>
@@ -72,10 +75,10 @@ export default function RelatedLinks({
 
           {posts.length > 0 && (
             <div className="min-w-0">
-              <span className={columnLabel}>
+              <h2 className={columnLabel}>
                 <span className="w-[4px] h-[1em] bg-[var(--brand)]" />
                 Related reading
-              </span>
+              </h2>
               {posts.map((p) => (
                 <Link key={p.slug} href={`/blog/${p.slug}`} className={itemLink}>
                   <span className={itemTitle}>{p.title}</span>

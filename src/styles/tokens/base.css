@@ -36,8 +36,11 @@ body {
    to a blanket `margin:0` here for the same reason. Components that
    truly want a zero margin default add `m-0` explicitly per instance. */
 
+/* No text-decoration here: as unlayered CSS it beat every `underline`
+   utility, so links meant to be underlined (the homepage London link, FAQ
+   answer links, article links) never were. Tailwind's preflight already sets
+   `text-decoration: inherit` on links, which gives the same plain default. */
 a {
-  text-decoration: none;
   transition: var(--transition-colors);
 }
 

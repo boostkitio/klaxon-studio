@@ -169,12 +169,119 @@ export function servicesForProject(projectId: string): ServiceDetail[] {
     .filter((svc): svc is ServiceDetail => Boolean(svc));
 }
 
-/** Other case studies proving the same services, for a case study page. */
+/**
+ * Picks `perSource` related targets for every source, so that inbound
+ * links are spread across the set rather than piling onto the same few.
+ *
+ * `ranked[source]` lists the targets relevant to it, best first; nothing outside
+ * that list is ever chosen, so balancing never produces an irrelevant link.
+ * Pass 1 runs `minInbound` rounds: in each, the least-linked item (counting
+ * `baseInbound`, the links it already gets elsewhere) claims a slot on the
+ * page where it ranks highest. Pass 2 fills the remaining slots by relevance.
+ * Sources and targets can be the same set (case study to case study) or
+ * different ones (case study to blog post).
+ * Deterministic: ties fall back to list order.
+ */
+function allocateRelated(
+  sources: string[],
+  targets: string[],
+  ranked: Record<string, string[]>,
+  perSource: number,
+  minInbound: number,
+  baseInbound: Record<string, number> = {},
+): Record<string, string[]> {
+  const chosen: Record<string, string[]> = Object.fromEntries(sources.map((id) => [id, []]));
+  const inbound: Record<string, number> = Object.fromEntries(targets.map((id) => [id, 0]));
+  const hasRoom = (source: string) => chosen[source].length < perSource;
+  const order = (id: string, list: string[]) => list.indexOf(id);
+
+  for (let round = 0; round < minInbound; round++) {
+    const byNeed = [...targets].sort(
+      (a, b) =>
+        (baseInbound[a] ?? 0) + inbound[a] - ((baseInbound[b] ?? 0) + inbound[b]) ||
+        order(a, targets) - order(b, targets),
+    );
+    for (const target of byNeed) {
+      if (inbound[target] > round) continue;
+      const source = sources
+        .filter((s) => s !== target && hasRoom(s) && !chosen[s].includes(target) && ranked[s]?.includes(target))
+        .sort(
+          (a, b) =>
+            ranked[a].indexOf(target) - ranked[b].indexOf(target) ||
+            chosen[a].length - chosen[b].length ||
+            order(a, sources) - order(b, sources),
+        )[0];
+      if (source) {
+        chosen[source].push(target);
+        inbound[target]++;
+      }
+    }
+  }
+
+  for (const source of sources) {
+    for (const target of ranked[source] ?? []) {
+      if (!hasRoom(source)) break;
+      if (!chosen[source].includes(target)) {
+        chosen[source].push(target);
+        inbound[target] = (inbound[target] ?? 0) + 1;
+      }
+    }
+  }
+
+  for (const source of sources) {
+    chosen[source].sort((a, b) => ranked[source].indexOf(a) - ranked[source].indexOf(b));
+  }
+  return chosen;
+}
+
+/** Every service a case study belongs to (uncapped), showcased or not. */
+function allServiceSlugsForProject(projectId: string): string[] {
+  return [
+    ...new Set([
+      ...(extraProjectServiceSlugs[projectId] ?? []),
+      ...Object.entries(serviceProjectIds)
+        .filter(([, ids]) => ids.includes(projectId))
+        .map(([slug]) => slug),
+    ]),
+  ];
+}
+
+/**
+ * "Selected work" on a case study page.
+ *
+ * Taking related projects only from each service's three showcased case
+ * studies meant the same handful were linked everywhere while the rest got
+ * nothing: Subaru had one in-content link on the whole site (from /work).
+ * Candidates are ranked by shared services, then shared categories, then
+ * sector, and allocated so every case study gets at least two.
+ */
+const relatedProjectIds: Record<string, string[]> = (() => {
+  const ids = workAll.map((p) => p.id);
+  const servicesOf = Object.fromEntries(ids.map((id) => [id, allServiceSlugsForProject(id)]));
+  const ranked: Record<string, string[]> = {};
+  for (const proj of workAll) {
+    const scored = workAll
+      .filter((other) => other.id !== proj.id)
+      .map((other) => {
+        const sharedServices = servicesOf[proj.id].filter((s) => servicesOf[other.id].includes(s)).length;
+        const sharedCats = proj.cat.filter((c) => other.cat.includes(c)).length;
+        const sameSector = proj.sector === other.sector ? 1 : 0;
+        return { id: other.id, score: sharedServices * 2 + sharedCats + sameSector };
+      })
+      .filter((c) => c.score > 0)
+      .sort((a, b) => b.score - a.score || ids.indexOf(a.id) - ids.indexOf(b.id));
+    ranked[proj.id] = scored.map((c) => c.id);
+  }
+  const showcased: Record<string, number> = {};
+  for (const list of Object.values(serviceProjectIds)) {
+    for (const id of list) showcased[id] = (showcased[id] ?? 0) + 1;
+  }
+  return allocateRelated(ids, ids, ranked, 3, 2, showcased);
+})();
+
+/** Other case studies for a case study page. */
 export function relatedProjectsForProject(projectId: string): Project[] {
-  const ids = servicesForProject(projectId).flatMap((svc) => serviceProjectIds[svc.slug] ?? []);
-  return [...new Set(ids)]
-    .filter((id) => id !== projectId)
-    .slice(0, 3)
+  return (relatedProjectIds[projectId] ?? [])
     .map((id) => workAll.find((p) => p.id === id))
     .filter((p): p is Project => Boolean(p));
 }
@@ -182,6 +289,62 @@ export function relatedProjectsForProject(projectId: string): Project[] {
 /** Blog post slugs for a service page. Titles are resolved by the caller. */
 export function relatedPostSlugsFor(slug: string): string[] {
   return servicePostSlugs[slug] ?? [];
+}
+
+/**
+ * Guides for a case study page: the reading mapped to the services it proves.
+ * Gives the blog a second source of in-content links besides the service
+ * pages. Taking the first two posts per case study sent 13 links each to the
+ * branded-content and brand-film-length posts and none to most others, so the
+ * slots are balanced across every post a case study is relevant to.
+ */
+const projectPostSlugs: Record<string, string[]> = (() => {
+  const isContentType = (slug: string) => contentTypes.some((c) => c.slug === slug);
+  const ranked: Record<string, string[]> = {};
+  for (const proj of workAll) {
+    const slugs = allServiceSlugsForProject(proj.id)
+      .sort((a, b) => Number(isContentType(b)) - Number(isContentType(a)))
+      .flatMap((svc) => servicePostSlugs[svc] ?? []);
+    ranked[proj.id] = [...new Set(slugs)];
+  }
+  const posts = [...new Set(Object.values(servicePostSlugs).flat())];
+  return allocateRelated(workAll.map((p) => p.id), posts, ranked, 2, 2);
+})();
+
+export function relatedPostSlugsForProject(projectId: string): string[] {
+  return projectPostSlugs[projectId] ?? [];
+}
+
+/**
+ * "Related reading" on a blog post: other posts mapped to the same services.
+ * Posts never linked to each other, so the two least-linked guides (corporate
+ * video ROI and health sector) had two in-content links each. Allocated so
+ * every mapped post gets at least two links from other posts.
+ */
+const relatedPostSlugs: Record<string, string[]> = (() => {
+  const servicesOfPost: Record<string, string[]> = {};
+  for (const [service, posts] of Object.entries(servicePostSlugs)) {
+    for (const post of posts) (servicesOfPost[post] ??= []).push(service);
+  }
+  const slugs = Object.keys(servicesOfPost);
+  const ranked: Record<string, string[]> = {};
+  for (const post of slugs) {
+    ranked[post] = slugs
+      .filter((other) => other !== post)
+      .map((other) => ({
+        slug: other,
+        shared: servicesOfPost[post].filter((s) => servicesOfPost[other].includes(s)).length,
+      }))
+      .filter((c) => c.shared > 0)
+      .sort((a, b) => b.shared - a.shared || slugs.indexOf(a.slug) - slugs.indexOf(b.slug))
+      .map((c) => c.slug);
+  }
+  const fromServices = Object.fromEntries(slugs.map((s) => [s, servicesOfPost[s].length]));
+  return allocateRelated(slugs, slugs, ranked, 3, 2, fromServices);
+})();
+
+export function relatedPostSlugsForPost(postSlug: string): string[] {
+  return relatedPostSlugs[postSlug] ?? [];
 }
 
 /** Most services a single blog post will link out to. */

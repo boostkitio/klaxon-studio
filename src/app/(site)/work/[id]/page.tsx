@@ -6,10 +6,13 @@ import VideoEmbed from "@/components/VideoEmbed";
 import FaqAccordion from "@/components/FaqAccordion";
 import RelatedLinks from "@/components/RelatedLinks";
 import { workAll } from "@/lib/content";
-import { servicesForProject, relatedProjectsForProject } from "@/lib/related";
-import { muxThumbnail } from "@/lib/mux";
+import { servicesForProject, relatedProjectsForProject, relatedPostSlugsForProject } from "@/lib/related";
+import { muxThumbnail, muxThumbnailSrcSet } from "@/lib/mux";
+import { vimeoThumbnailSrcSet } from "@/lib/vimeo";
 import { videoObjectSchema, breadcrumbSchema, faqPageSchema } from "@/lib/schema";
 import { ogFor } from "@/lib/site";
+import { sanityFetch } from "@/sanity/lib/fetch";
+import { POST_TITLES_BY_SLUGS_QUERY } from "@/sanity/lib/queries";
 
 export function generateStaticParams() {
   return workAll.map((p) => ({ id: p.id }));
@@ -37,6 +40,20 @@ export default async function ProjectDetailPage({
   const { id } = await params;
   const proj = workAll.find((p) => p.id === id);
   if (!proj) notFound();
+
+  // Same pattern as the service pages: resolve titles from Sanity, keep the
+  // curated order, and drop any slug that is no longer published.
+  const postSlugs = relatedPostSlugsForProject(proj.id);
+  const fetchedPosts = postSlugs.length
+    ? await sanityFetch<{ slug: string; title: string }[]>({
+        query: POST_TITLES_BY_SLUGS_QUERY,
+        params: { slugs: postSlugs },
+        tags: ["post"],
+      })
+    : [];
+  const relatedPosts = postSlugs
+    .map((slug) => fetchedPosts.find((p) => p.slug === slug))
+    .filter((p): p is { slug: string; title: string } => Boolean(p));
 
   const vimeoSrc = `https://player.vimeo.com/video/${proj.vimeo}?${proj.vimeoHash ? `h=${proj.vimeoHash}&` : ""}title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479`;
 
@@ -82,6 +99,10 @@ export default async function ProjectDetailPage({
               <VideoEmbed
                 src={vimeoSrc}
                 poster={proj.vimeoThumb ?? muxThumbnail(proj.video, 1280)}
+                // Responsive variants: phones were downloading the 1280px
+                // poster, which is the LCP image on every case study.
+                posterSrcSet={proj.vimeoThumb ? vimeoThumbnailSrcSet(proj.vimeoThumb) : muxThumbnailSrcSet(proj.video)}
+                sizes="(min-width: 1280px) 1184px, 100vw"
                 title={`${proj.client}: ${proj.title}`}
               />
             ) : (
@@ -124,7 +145,7 @@ export default async function ProjectDetailPage({
       <RelatedLinks
         projects={relatedProjectsForProject(proj.id)}
         services={servicesForProject(proj.id)}
-        posts={[]}
+        posts={relatedPosts}
       />
 
       {proj.faqs && (

@@ -13,7 +13,19 @@ import { sanityFetch } from "@/sanity/lib/fetch";
 import { POST_TITLES_BY_SLUGS_QUERY } from "@/sanity/lib/queries";
 
 const allServices = [...services, ...contentTypes];
-const kindFor = (slug: string) => (services.some((s) => s.slug === slug) ? "Production" : "Content");
+
+/**
+ * The eyebrow above the H1. The H1 is a short design headline ("Corporate
+ * Video"), so the label carries the phrase people search with, taken from the
+ * page's search title ("Corporate Video Production London"). It sits right
+ * next to the H1 where it reinforces the title tag instead of the old generic
+ * "Production" / "Content" label.
+ */
+const eyebrowFor = (slug: string) => {
+  const seoTitle = SEO_TITLES[slug];
+  if (!seoTitle) return services.some((s) => s.slug === slug) ? "Production" : "Content";
+  return seoTitle.replace(/\s*\|\s*Klaxon Studio/, "").trim();
+};
 
 export function generateStaticParams() {
   return allServices.map((s) => ({ slug: s.slug }));
@@ -86,7 +98,7 @@ export default async function ServiceDetailPage({
             <div className="min-w-0">
               <span className="flex items-center gap-[11px] font-mono font-medium text-[11px] tracking-[0.12em] uppercase text-[var(--text-muted)] mb-[clamp(16px,2.2vw,24px)]">
                 <span className="w-[4px] h-[1em] bg-[var(--brand)]" />
-                {kindFor(svc.slug)}
+                {eyebrowFor(svc.slug)}
               </span>
               <h1 className="font-display font-[var(--kx-dw,700)] text-[clamp(31px,4.5vw,61px)] leading-[0.99] tracking-[-0.035em]">
                 {svc.title}
@@ -95,9 +107,9 @@ export default async function ServiceDetailPage({
               <p className="mt-[clamp(20px,2.6vw,28px)] max-w-[34ch] font-display font-[var(--kx-dw,700)] text-[clamp(17px,1.9vw,23px)] leading-[1.2] tracking-[-0.02em]">
                 {svc.lead}
               </p>
-              <span className="block mt-[clamp(34px,4.5vw,52px)] font-mono font-medium text-[10px] tracking-[0.14em] uppercase text-[var(--text-muted)]">
+              <h2 className="block mt-[clamp(34px,4.5vw,52px)] font-mono font-medium text-[10px] tracking-[0.14em] uppercase text-[var(--text-muted)]">
                 What&apos;s included
-              </span>
+              </h2>
               <div className="flex flex-wrap gap-2 my-[18px] mb-[30px]">
                 {svc.includes.map((inc) => (
                   <span

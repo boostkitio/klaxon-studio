@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { SITE_URL, OG_BASE } from "@/lib/site";
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION as DESCRIPTION, OG_BASE } from "@/lib/site";
 import "./globals.css";
 
 // Latin-only woff2 files from Fontsource (@fontsource/inter and
@@ -37,11 +37,10 @@ const jetbrainsMono = localFont({
   adjustFontFallback: "Arial",
 });
 
-const DESCRIPTION =
-  "Klaxon Studio is a full-service video production company in Bermondsey, London, making commercials, branded content, documentary, corporate, social and podcast film for brands that refuse to be ignored.";
-
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
+  applicationName: SITE_NAME,
+  appleWebApp: { title: SITE_NAME },
   title: {
     default: "Klaxon Studio | Video Production Company London",
     template: "%s | Klaxon Studio",

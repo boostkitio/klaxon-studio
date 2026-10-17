@@ -11,7 +11,9 @@ export default function JsonLd({ data }: { data: object | object[] }) {
         <script
           key={i}
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(block) }}
+          // Escape "<" so text from the CMS (a post title, an FAQ answer) can
+          // never close the script tag early and break the page or the markup.
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(block).replace(/</g, "\\u003c") }}
         />
       ))}
     </>

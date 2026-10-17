@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/site";
-import { workAll, services, contentTypes } from "@/lib/content";
+import { workAll, services, contentTypes, type Project } from "@/lib/content";
+import { muxThumbnail } from "@/lib/mux";
+import { vimeoPlayerUrl } from "@/lib/schema";
 import { SEO_TITLES, SEO_DESCRIPTIONS } from "@/lib/service-seo";
 import { pageHashes } from "@/lib/page-hashes";
 import sitemapDates from "@/lib/sitemap-dates.json";
@@ -24,6 +26,45 @@ const hashes = pageHashes({
 const dates: Record<string, { hash: string; date: string } | undefined> = sitemapDates;
 const lastModifiedFor = (path: string) =>
   dates[path]?.hash === hashes[path] ? dates[path]?.date : undefined;
+
+// Next writes sitemap values into the XML verbatim, so anything with "&"
+// (thumbnail query strings, "Food & Drink") has to be escaped here.
+const xml = (value: string) =>
+  value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+
+/** ISO 8601 duration ("PT6M25S") to whole seconds, as video sitemaps expect. */
+const isoDurationToSeconds = (iso?: string) => {
+  const m = iso?.match(/^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/);
+  if (!m) return undefined;
+  return Number(m[1] ?? 0) * 3600 + Number(m[2] ?? 0) * 60 + Number(m[3] ?? 0);
+};
+
+/**
+ * Video sitemap entry for a case study: the film is the page's main content,
+ * and the sitemap is how Google finds a Vimeo film that sits behind a
+ * click-to-play poster. Mirrors videoObjectSchema() in lib/schema.ts.
+ */
+const videoFor = (proj: Project) => {
+  const thumbnail = proj.vimeoThumb ?? muxThumbnail(proj.video, 1280);
+  if (!thumbnail || !proj.vimeo) return undefined;
+  return [
+    {
+      title: xml(`${proj.client}: ${proj.title}`),
+      description: xml(`${proj.lead} ${proj.client} case study by Klaxon Studio, a video production company in London.`),
+      thumbnail_loc: xml(thumbnail),
+      player_loc: xml(vimeoPlayerUrl(proj)),
+      ...(proj.video ? { content_loc: xml(proj.video) } : {}),
+      duration: isoDurationToSeconds(proj.duration),
+      publication_date: proj.uploadDate,
+      family_friendly: "yes" as const,
+    },
+  ];
+};
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const blogPosts = await client
@@ -60,6 +101,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: lastModifiedFor(`/work/${w.id}`),
       changeFrequency: "yearly" as const,
       priority: 0.6,
+      videos: videoFor(w),
     })),
     ...[...services, ...contentTypes].map((s) => ({
       url: `${SITE_URL}/services/${s.slug}`,

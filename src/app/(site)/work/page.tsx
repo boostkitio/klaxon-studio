@@ -9,7 +9,7 @@ import { HighlightWipe } from "@/components/ScrollHighlight";
 import { workAll, filterNames, workFaqItems } from "@/lib/content";
 
 import JsonLd from "@/components/JsonLd";
-import { breadcrumbSchema, faqPageSchema } from "@/lib/schema";
+import { breadcrumbSchema, faqPageSchema, caseStudyListSchema } from "@/lib/schema";
 export default function WorkPage() {
   const [filter, setFilter] = useState("All");
   const filtered = filter === "All" ? workAll : workAll.filter((w) => w.cat.includes(filter));
@@ -18,6 +18,7 @@ export default function WorkPage() {
     <main>
       <JsonLd
         data={[
+          caseStudyListSchema(workAll),
           faqPageSchema(workFaqItems),
           breadcrumbSchema([{ name: "Work", path: "/work" }]),
         ]}

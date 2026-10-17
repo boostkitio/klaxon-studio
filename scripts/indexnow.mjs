@@ -13,10 +13,6 @@
  * IndexNow notifies Bing, Yandex, Seznam, and Naver. Google does not use it.
  */
 
-import { readFileSync } from "node:fs"
-import { dirname, join } from "node:path"
-import { fileURLToPath } from "node:url"
-
 // --- Per-project config (set during add-project bootstrap) ---
 const INDEXNOW_KEY = "d90abe6d450f3fb6d1e0e7cab9ee3e4c"
 const HOST = "klaxon.studio"

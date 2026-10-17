@@ -117,8 +117,23 @@ export function HighlightWipe({
 }) {
   const { ref, progress } = useHighlightProgress(trigger);
   const pct = `${(progress * 100).toFixed(2)}%`;
+  // The `to`-coloured copy that wipes across is drawn by the .hl-wipe::after
+  // rule in globals.css from data-text, not a second span. A duplicate span
+  // put every word in the HTML twice ("ambitious brands. ambitious brands."),
+  // which is what search engines and copy-paste saw.
   return (
-    <span ref={ref} className={`relative inline-block lg:whitespace-nowrap align-baseline ${className}`}>
+    <span
+      ref={ref}
+      data-text={children}
+      className={`hl-wipe relative inline-block lg:whitespace-nowrap align-baseline ${className}`}
+      style={
+        {
+          "--hl-pct": pct,
+          "--hl-to": to,
+          "--hl-pad": bg ? "0.04em 0 0.04em 0" : "0.08em 0 0.18em",
+        } as React.CSSProperties
+      }
+    >
       <span
         style={{
           display: "inline-block",
@@ -128,22 +143,6 @@ export function HighlightWipe({
           backgroundRepeat: "no-repeat",
           backgroundPosition: "0 0",
           backgroundSize: `${pct} 100%`,
-        }}
-      >
-        {children}
-      </span>
-      <span
-        aria-hidden
-        style={{
-          position: "absolute",
-          left: 0,
-          top: 0,
-          padding: bg ? "0.04em 0 0.04em 0" : "0.08em 0 0.18em",
-          width: pct,
-          overflow: "hidden",
-          whiteSpace: "nowrap",
-          color: to,
-          pointerEvents: "none",
         }}
       >
         {children}

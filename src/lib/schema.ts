@@ -1,6 +1,14 @@
-import { SITE_URL, SITE_NAME } from "./site";
+import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "./site";
 import { muxThumbnail } from "./mux";
-import type { Project, ServiceDetail, Faq } from "./content";
+import {
+  services,
+  contentTypes,
+  founders,
+  type Project,
+  type ServiceDetail,
+  type Faq,
+  type GlossaryTerm,
+} from "./content";
 
 /**
  * Stable @id anchors. Every schema block that needs to refer to the business
@@ -16,6 +24,102 @@ export const WEBSITE_ID = `${SITE_URL}/#website`;
 
 type Json = Record<string, unknown>;
 
+/** Every service and content type, so the entity's topics match the site's pages. */
+const allServices: ServiceDetail[] = [...services, ...contentTypes];
+
+/** Stable @id for a founder, so bylines and the business point at one Person. */
+const personId = (fullName: string) =>
+  `${SITE_URL}/about#${fullName.toLowerCase().replace(/[^a-z]+/g, "-")}`;
+
+function founderPerson(f: (typeof founders)[number]): Json {
+  return {
+    "@type": "Person",
+    "@id": personId(f.fullName),
+    name: f.fullName,
+    jobTitle: f.role.replace("Co-Founder · ", "Co-founder, "),
+    url: `${SITE_URL}/about`,
+    worksFor: { "@id": BUSINESS_ID },
+  };
+}
+
+/**
+ * The business entity, rendered once in SiteChrome. Every other block refers
+ * to it by BUSINESS_ID. hasMap ties it to the Google Business Profile, and
+ * sameAs to the brand's own social profiles, so search engines can resolve
+ * "Klaxon Studio" to one entity. Only facts the site itself states belong
+ * here: no ratings (self-serving review markup is ignored or penalised).
+ */
+export function businessSchema(): Json {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "@id": BUSINESS_ID,
+    name: SITE_NAME,
+    legalName: "Klaxon Studio Ltd",
+    alternateName: "Klaxon",
+    description: SITE_DESCRIPTION,
+    slogan: "Video production that demands attention.",
+    // The about page: "In May 2024, Klaxon Studio launched".
+    foundingDate: "2024-05",
+    url: SITE_URL,
+    logo: {
+      "@type": "ImageObject",
+      "@id": `${SITE_URL}/#logo`,
+      url: `${SITE_URL}/images/klxn-coral.png`,
+      width: 1600,
+      height: 583,
+      caption: SITE_NAME,
+    },
+    image: `${SITE_URL}/images/og-image.jpg`,
+    telephone: "+44 20 8058 0669",
+    email: "hello@klaxon.studio",
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "sales",
+      telephone: "+44 20 8058 0669",
+      email: "hello@klaxon.studio",
+      areaServed: "GB",
+      availableLanguage: "en-GB",
+    },
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Unit 408, Cocoa Studios, The Biscuit Factory, 100 Drummond Road",
+      addressLocality: "London",
+      postalCode: "SE16 4FA",
+      addressCountry: "GB",
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: 51.4943706,
+      longitude: -0.0617451,
+    },
+    hasMap: "https://maps.google.com/?cid=14804452344662294871",
+    sameAs: [
+      "https://instagram.com/klaxonstudiouk",
+      "https://www.linkedin.com/company/klaxon-studio",
+    ],
+    areaServed: ["London", "South East England", "United Kingdom"],
+    // Kept short: this block is on every page, and Next repeats JSON-LD in
+    // the hydration payload, so each byte here ships several times per page.
+    // Offers live on the service pages (serviceSchema); founders on /about.
+    knowsAbout: ["Video production", ...allServices.map((s) => s.title)],
+  };
+}
+
+/**
+ * Rendered on /about only. Same @id as businessSchema(), so search engines
+ * merge it into the one business entity rather than reading a second one.
+ */
+export function businessFoundersSchema(): Json {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "@id": BUSINESS_ID,
+    name: SITE_NAME,
+    founder: founders.map(founderPerson),
+  };
+}
+
 export function websiteSchema(): Json {
   return {
     "@context": "https://schema.org",
@@ -23,8 +127,56 @@ export function websiteSchema(): Json {
     "@id": WEBSITE_ID,
     url: SITE_URL,
     name: SITE_NAME,
+    alternateName: "Klaxon",
+    description: SITE_DESCRIPTION,
     publisher: { "@id": BUSINESS_ID },
     inLanguage: "en-GB",
+  };
+}
+
+/**
+ * The work index as a list of case studies, so each film is tied to the
+ * collection page that groups it rather than discovered one link at a time.
+ */
+export function caseStudyListSchema(projects: Project[]): Json {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "@id": `${SITE_URL}/work#page`,
+    url: `${SITE_URL}/work`,
+    name: "Video production case studies",
+    isPartOf: { "@id": WEBSITE_ID },
+    about: { "@id": BUSINESS_ID },
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: projects.length,
+      itemListElement: projects.map((p, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        url: `${SITE_URL}/work/${p.id}`,
+        name: `${p.client}: ${p.title}`,
+      })),
+    },
+  };
+}
+
+/** The glossary as a DefinedTermSet: each term is a definition of its own. */
+export function glossarySchema(terms: GlossaryTerm[]): Json {
+  const setId = `${SITE_URL}/glossary#terms`;
+  return {
+    "@context": "https://schema.org",
+    "@type": "DefinedTermSet",
+    "@id": setId,
+    name: "Video production glossary",
+    url: `${SITE_URL}/glossary`,
+    publisher: { "@id": BUSINESS_ID },
+    inLanguage: "en-GB",
+    hasDefinedTerm: terms.map((term) => ({
+      "@type": "DefinedTerm",
+      name: term.t,
+      description: term.d,
+      inDefinedTermSet: setId,
+    })),
   };
 }
 
@@ -83,6 +235,14 @@ export function faqPageSchema(faqs: Faq[]): Json {
   };
 }
 
+/**
+ * The embeddable player URL. Unlisted Vimeo films only play with their
+ * privacy hash, so leaving it off hands Google a player that will not load.
+ */
+export function vimeoPlayerUrl(proj: Project): string {
+  return `https://player.vimeo.com/video/${proj.vimeo}${proj.vimeoHash ? `?h=${proj.vimeoHash}` : ""}`;
+}
+
 export function videoObjectSchema(proj: Project): Json {
   const thumbnail = proj.vimeoThumb ?? muxThumbnail(proj.video);
   return {
@@ -93,15 +253,24 @@ export function videoObjectSchema(proj: Project): Json {
     ...(thumbnail ? { thumbnailUrl: thumbnail } : {}),
     ...(proj.uploadDate ? { uploadDate: proj.uploadDate } : {}),
     ...(proj.duration ? { duration: proj.duration } : {}),
-    ...(proj.vimeo
-      ? { embedUrl: `https://player.vimeo.com/video/${proj.vimeo}` }
-      : {}),
+    ...(proj.vimeo ? { embedUrl: vimeoPlayerUrl(proj) } : {}),
     ...(proj.video ? { contentUrl: proj.video } : {}),
     creator: { "@id": BUSINESS_ID },
     publisher: { "@id": BUSINESS_ID },
     isPartOf: { "@id": WEBSITE_ID },
     url: `${SITE_URL}/work/${proj.id}`,
   };
+}
+
+/**
+ * A byline that matches a founder resolves to that founder's Person node (with
+ * the about page and employer attached). Anything else stays a plain Person,
+ * and no byline falls back to the business itself.
+ */
+function authorFor(name?: string): Json {
+  if (!name) return { "@id": BUSINESS_ID };
+  const founder = founders.find((f) => f.fullName === name);
+  return founder ? founderPerson(founder) : { "@type": "Person", name };
 }
 
 /**
@@ -114,10 +283,16 @@ export function blogPostingSchema(post: {
   description: string;
   slug: string;
   publishedAt: string;
+  /** Sanity's _updatedAt. Ignored when it predates publishedAt (back-dated posts). */
+  updatedAt?: string;
   author?: string;
   imageUrl?: string;
 }): Json {
   const url = `${SITE_URL}/blog/${post.slug}`;
+  const modified =
+    post.updatedAt && new Date(post.updatedAt) > new Date(post.publishedAt)
+      ? post.updatedAt
+      : post.publishedAt;
   return {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -126,10 +301,8 @@ export function blogPostingSchema(post: {
     url,
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
     datePublished: post.publishedAt,
-    dateModified: post.publishedAt,
-    author: post.author
-      ? { "@type": "Person", name: post.author }
-      : { "@id": BUSINESS_ID },
+    dateModified: modified,
+    author: authorFor(post.author),
     publisher: { "@id": BUSINESS_ID },
     isPartOf: { "@id": WEBSITE_ID },
     inLanguage: "en-GB",

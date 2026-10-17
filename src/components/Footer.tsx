@@ -23,7 +23,8 @@ export default function Footer() {
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)]">
           <div className="grid gap-[clamp(32px,4vw,56px)] pb-[clamp(40px,5vw,64px)] border-b border-white/16" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))" }}>
             <div className="min-w-[180px]">
-              <Logo variant="white" height={40} />
+              {/* Bottom of the page: no preload, lazy load. */}
+              <Logo variant="white" height={40} priority={false} />
               <p className="mt-[18px] text-[14px] leading-[1.6] text-white/70 max-w-[30ch]">
                 Video production that demands attention. Bermondsey, London.
               </p>

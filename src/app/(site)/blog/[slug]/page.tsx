@@ -6,11 +6,12 @@ import { stegaClean } from "next-sanity";
 import ImageSlot from "@/components/ImageSlot";
 import JsonLd from "@/components/JsonLd";
 import { blogPostingSchema, breadcrumbSchema } from "@/lib/schema";
-import { servicesForPost } from "@/lib/related";
-import { ogFor } from "@/lib/site";
+import { servicesForPost, relatedPostSlugsForPost } from "@/lib/related";
+import { founders } from "@/lib/content";
+import { ogFor, SITE_URL } from "@/lib/site";
 import { client } from "@/sanity/lib/client";
 import { sanityFetch } from "@/sanity/lib/fetch";
-import { POST_QUERY, POST_SLUGS_QUERY } from "@/sanity/lib/queries";
+import { POST_QUERY, POST_SLUGS_QUERY, POST_TITLES_BY_SLUGS_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 import type { SanityImageSource } from "@sanity/image-url";
 
@@ -19,6 +20,7 @@ type Post = {
   title: string;
   slug: string;
   publishedAt: string;
+  updatedAt?: string;
   author?: string;
   metaDesc: string;
   lead: string;
@@ -55,7 +57,39 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return `${post.title} | Klaxon Studio`.length > 60 ? { ...meta, title: { absolute: post.title } } : meta;
 }
 
+const inlineLink =
+  "text-[var(--text-primary)] underline underline-offset-[3px] decoration-[var(--brand)] hover:text-[var(--brand)] transition-colors";
+
+/** Absolute links to this site, written that way in the Studio, become relative. */
+const toInternalPath = (href: string) => {
+  if (href.startsWith("/") && !href.startsWith("//")) return href;
+  if (href.startsWith(SITE_URL)) return href.slice(SITE_URL.length) || "/";
+  return null;
+};
+
 const portableComponents: PortableTextComponents = {
+  marks: {
+    // Internal links stay in the tab and go through the router. External
+    // sources open in a new tab so a reader checking a citation keeps the
+    // article; noopener stops the new page reaching back into this one.
+    link: ({ value, children }) => {
+      const href = typeof value?.href === "string" ? value.href.trim() : "";
+      if (!href) return <>{children}</>;
+      const internal = toInternalPath(href);
+      if (internal) {
+        return (
+          <Link href={internal} className={inlineLink}>
+            {children}
+          </Link>
+        );
+      }
+      return (
+        <a href={href} target="_blank" rel="noopener" className={inlineLink}>
+          {children}
+        </a>
+      );
+    },
+  },
   block: {
     h2: ({ children }) => (
       <h2 className="font-display font-[var(--kx-dw,700)] text-[clamp(21px,2.4vw,30px)] leading-[1.12] tracking-[-0.025em] mt-[clamp(16px,2vw,24px)]">
@@ -92,6 +126,18 @@ export default async function BlogPostPage({
   // Keyed off the route slug rather than post.slug: in draft mode post.slug
   // carries stega markers, which would never match the plain map keys.
   const relatedServices = servicesForPost(slug);
+  const relatedSlugs = relatedPostSlugsForPost(slug);
+  const fetchedRelated = relatedSlugs.length
+    ? await sanityFetch<{ slug: string; title: string }[]>({
+        query: POST_TITLES_BY_SLUGS_QUERY,
+        params: { slugs: relatedSlugs },
+        tags: ["post"],
+      })
+    : [];
+  const relatedPosts = relatedSlugs
+    .map((s) => fetchedRelated.find((p) => p.slug === s))
+    .filter((p): p is { slug: string; title: string } => Boolean(p));
+  const authorIsFounder = founders.some((f) => f.fullName === stegaClean(post.author));
 
   return (
     <main>
@@ -102,6 +148,7 @@ export default async function BlogPostPage({
             description: stegaClean(post.metaDesc) || stegaClean(post.lead),
             slug: stegaClean(post.slug),
             publishedAt: stegaClean(post.publishedAt),
+            updatedAt: post.updatedAt,
             author: stegaClean(post.author) || undefined,
             imageUrl: post.mainImage
               ? urlFor(post.mainImage).width(1200).height(630).url()
@@ -130,7 +177,13 @@ export default async function BlogPostPage({
                 Loud Thinking
               </Link>
               <span className="block font-mono font-medium text-[11px] tracking-[0.14em] uppercase text-white/75 mb-[clamp(18px,2vw,24px)]">
-                {post.author || "The Klaxon team"}
+                {authorIsFounder ? (
+                  <Link href="/about" className="hover:text-white transition-colors">
+                    {post.author}
+                  </Link>
+                ) : (
+                  post.author || "The Klaxon team"
+                )}
               </span>
               <h1 className="font-display font-[var(--kx-dw,700)] text-[clamp(31px,4.5vw,61px)] leading-[1.0] tracking-[-0.035em] text-white">
                 {post.title}
@@ -149,6 +202,9 @@ export default async function BlogPostPage({
               alt={post.title}
               placeholder="Article image"
               sizes="(min-width: 880px) 820px, 100vw"
+              // The article image is the LCP element; lazy loading it cost
+              // a 7.2s mobile LCP in Lighthouse.
+              preload
             />
           </div>
         </div>
@@ -160,10 +216,10 @@ export default async function BlogPostPage({
         {relatedServices.length > 0 && (
           <div className="max-w-[820px] mx-auto mt-[clamp(48px,6vw,80px)] px-[clamp(20px,5vw,48px)]">
             <div className="border-t border-[var(--border-subtle)] pt-[clamp(32px,4vw,48px)]">
-              <span className="flex items-center gap-[11px] font-mono font-medium text-[11px] tracking-[0.12em] uppercase text-[var(--text-muted)] mb-[clamp(18px,2.2vw,26px)]">
+              <h2 className="flex items-center gap-[11px] font-mono font-medium text-[11px] tracking-[0.12em] uppercase text-[var(--text-muted)] mb-[clamp(18px,2.2vw,26px)]">
                 <span className="w-[4px] h-[1em] bg-[var(--brand)]" />
                 How we can help
-              </span>
+              </h2>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-[clamp(20px,3vw,32px)]">
                 {relatedServices.map((svc) => (
                   <Link
@@ -176,6 +232,30 @@ export default async function BlogPostPage({
                     </span>
                     <span className="block mt-[6px] font-mono font-medium text-[10px] tracking-[0.1em] uppercase text-[var(--text-muted)]">
                       {svc.desc}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {relatedPosts.length > 0 && (
+          <div className="max-w-[820px] mx-auto mt-[clamp(48px,6vw,80px)] px-[clamp(20px,5vw,48px)]">
+            <div className="border-t border-[var(--border-subtle)] pt-[clamp(32px,4vw,48px)]">
+              <h2 className="flex items-center gap-[11px] font-mono font-medium text-[11px] tracking-[0.12em] uppercase text-[var(--text-muted)] mb-[clamp(18px,2.2vw,26px)]">
+                <span className="w-[4px] h-[1em] bg-[var(--brand)]" />
+                Related reading
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-[clamp(20px,3vw,32px)]">
+                {relatedPosts.map((p) => (
+                  <Link
+                    key={p.slug}
+                    href={`/blog/${p.slug}`}
+                    className="group block border-t border-[var(--border-subtle)] py-[15px] transition-colors hover:border-[var(--brand)]"
+                  >
+                    <span className="block font-display font-[var(--kx-dw,700)] text-[clamp(15px,1.5vw,18px)] leading-[1.2] tracking-[-0.02em] transition-colors group-hover:text-[var(--brand)]">
+                      {p.title}
                     </span>
                   </Link>
                 ))}

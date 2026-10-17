@@ -58,6 +58,9 @@ export interface ServiceDetail {
 export interface Founder {
   id: string;
   name: string;
+  /** Full name, as used for blog bylines (the Studio's author list). Feeds
+   * the founder and author structured data; the page shows first names. */
+  fullName: string;
   role: string;
   bio: string[];
   img: string;
@@ -862,23 +865,23 @@ export const contentTypes: ServiceDetail[] = [
 // ── Founders ──
 
 export const founders: Founder[] = [
-      { id: "kx-f-charlie", name: "Charlie", role: "Co-Founder · Producer / Director", img: "uploads/founder_charlie.webp", imgPositionY: "9%", imgPositionYDesktop: "0%", bio: [
+      { id: "kx-f-charlie", name: "Charlie", fullName: "Charlie Fox", role: "Co-Founder · Producer / Director", img: "uploads/founder_charlie.webp", imgPositionY: "9%", imgPositionYDesktop: "0%", bio: [
         "Charlie has been behind the camera since 2009. In that time he's shot TV commercials, cinematic sport, and pretty much everything in between. He's filmed in 23 countries in a single year, survived 48°C desert heat with no water on the border of Saudi Arabia, nearly stepped on a landmine in Croatia, and somehow still considers a highlight to be shooting at an industrial estate in Slough.",
         "These days Charlie is a filmmaker in the truest sense of the word. He takes the brief, shapes the creative and plans all things pre-production before moving onto the shoot as a DP and makes sure the finished film does exactly what it's supposed to. Start to finish, the whole thing.",
         "Outside of work he's a devoted Arsenal fan who plays football three days a week. It's unclear whether this is a passion or a coping mechanism. He owes his entire career to a teacher at school who pointed him towards the media industry. Mr Hawxwell has a lot to answer for.",
       ] },
-      { id: "kx-f-jake", name: "Jake", role: "Co-Founder · Director of Photography", img: "uploads/founder_jake.webp", imgPositionY: "18%", imgPositionYDesktop: "76%", bio: [
+      { id: "kx-f-jake", name: "Jake", fullName: "Jake Kirby", role: "Co-Founder · Director of Photography", img: "uploads/founder_jake.webp", imgPositionY: "18%", imgPositionYDesktop: "76%", bio: [
         "Jake has been professionally pointing cameras at things since 2009. Originally from Dirranbandi, a town of 400 people in the middle of the Australian bush, he moved to London for two years about ten years ago. He's still here.",
         "Before co-founding Klaxon, Jake spent over a decade as a freelance DP, getting paid to carry expensive cameras to places most people only see on TV. National Geographic, Discovery, ITV, Food Network. Chopper rides through the New Zealand wilderness, dog sledding in Iceland, street food markets in Bangkok.",
         "At Klaxon, Jake is the workhorse. He takes the long shoots, the far-flung locations, and somehow keeps every piece of kit in perfect working order when he gets back. That's a lot of air miles and a lot of questionable hotels.",
         "Outside of work you'll find him sipping a flat white in Victoria Park or cycling the canals with Pops, the world's most well-travelled studio dog.",
       ] },
-      { id: "kx-f-matt", name: "Matt", role: "Co-Founder · Director", img: "uploads/founder_matt.webp", imgPositionY: "25%", imgPositionYDesktop: "100%", bio: [
+      { id: "kx-f-matt", name: "Matt", fullName: "Matt Hill", role: "Co-Founder · Director", img: "uploads/founder_matt.webp", imgPositionY: "25%", imgPositionYDesktop: "100%", bio: [
         "Matt has been shooting and directing across the world for over a decade. He's filmed in food markets in Hanoi, the restricted nuclear zone in Fukushima, and convinced celebrities to play tennis at the Royal Albert Hall. Starting out as a Camera Operator, he made the natural move into directing, producing and creative development, giving him an overview of the entire production process that very few people in the industry can match.",
         "At Klaxon, Matt works alongside Charlie on pitches and creative strategy. He has an exceptional ability to cut through the waffle, get straight to the point, and make sure every project delivers what the client actually needs. On shoots, Matt puts the creative to good use and directs crew, talent and clients(!) to ensure the final rushes meet the idea.",
         "Outside of work Matt is a devoted Arsenal fan, an F1 obsessive, a BigJet TV evangelist (yes it is cool, apparently), and a man who describes himself as a runner despite all available evidence suggesting otherwise. He also holds extremely strong opinions on the correct way to make a cup of tea. Non-negotiable. The rest of the office is always wrong and he will not be taking questions.",
       ] },
-      { id: "kx-f-james", name: "James", role: "Co-Founder · Post-Production Lead", img: "uploads/founder_james.webp", imgPositionY: "21%", imgPositionYDesktop: "100%", bio: [
+      { id: "kx-f-james", name: "James", fullName: "James England", role: "Co-Founder · Post-Production Lead", img: "uploads/founder_james.webp", imgPositionY: "21%", imgPositionYDesktop: "100%", bio: [
         "James is the man in the dark room. Originally from a post-production background, he has worked across TV, online campaigns, branded content and commercials and has spent the best part of his career making other people's footage look considerably better than it has any right to.",
         "At Klaxon, James is the backbone of every project. Post-production, workflow, tech, podcast production. If it happens after the shoot, it goes through James. The others would be completely lost without him, though you'll rarely hear them admit it.",
         "Outside of work James can be found sipping a cold pint in a beer garden, cooking ambitious dishes at home, or going for a hike to justify the previous two. He is also a Chelsea fan, which means he endures a level of daily mockery from Charlie and Matt that would break a lesser man. He takes it with dignity. His revenge is coming. Someday.",

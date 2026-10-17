@@ -3,6 +3,10 @@ import type { Metadata } from "next";
 export const SITE_URL = "https://klaxon.studio";
 export const SITE_NAME = "Klaxon Studio";
 
+/** The brand line: root meta description and the business/website schema. */
+export const SITE_DESCRIPTION =
+  "Klaxon Studio is a full-service video production company in Bermondsey, London, making commercials, branded content, documentary, corporate, social and podcast film for brands that refuse to be ignored.";
+
 const OG_IMAGE = {
   url: `${SITE_URL}/images/og-image.jpg`,
   secureUrl: `${SITE_URL}/images/og-image.jpg`,

@@ -2,7 +2,13 @@ import Image from "next/image";
 import { susData } from "@/lib/content";
 import { ogFor } from "@/lib/site";
 
-export const metadata = ogFor("Sustainability", "How Klaxon Studio approaches sustainable video production, from travel and energy through to waste and our environmental policy.", "/sustainability");
+// "Sustainable video production" is the phrase people search with; the bare
+// "Sustainability" title matched nothing anyone types.
+export const metadata = ogFor(
+  "Sustainable Video Production",
+  "How Klaxon Studio approaches sustainable video production in London, from travel and energy through to waste, plus our environmental policy.",
+  "/sustainability"
+);
 
 export default function SustainabilityPage() {
   return (

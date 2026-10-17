@@ -132,7 +132,7 @@ export default async function Home() {
               poster={SHOWREEL_POSTER}
               posterSrcSet={vimeoPosterSrcSet(SHOWREEL_POSTER)}
               sizes="100vw"
-              title="Klaxon-Showreel-Master-24-LR"
+              title="Klaxon Studio showreel 2026"
               priority={false}
             />
             <span className="absolute left-[clamp(16px,2.4vw,28px)] top-[clamp(16px,2.4vw,28px)] font-mono font-medium text-[11px] tracking-[0.12em] uppercase text-white pointer-events-none [text-shadow:0_1px_4px_rgba(0,0,0,0.6)]">

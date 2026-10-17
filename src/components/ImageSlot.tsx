@@ -14,6 +14,7 @@ export default function ImageSlot({
   placeholder = "Image to come",
   objectPosition,
   sizes = "100vw",
+  preload = false,
 }: {
   src?: string;
   video?: string;
@@ -29,6 +30,9 @@ export default function ImageSlot({
    * 50vw") — leaving the 100vw default makes desktop browsers download
    * images several times larger than the box they fill. */
   sizes?: string;
+  /** Set on the one image that is the page's LCP element (an article hero).
+   * Preloads it from the head and loads it eagerly instead of lazily. */
+  preload?: boolean;
 }) {
   if (video) {
     return (
@@ -52,6 +56,7 @@ export default function ImageSlot({
         alt={alt}
         fill
         sizes={sizes}
+        preload={preload}
         className={`object-cover ${className}`}
         style={objectPosition ? { objectPosition } : undefined}
       />

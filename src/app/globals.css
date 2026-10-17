@@ -75,3 +75,21 @@ body {
     transform: translateX(-50%);
   }
 }
+
+/* HighlightWipe (components/ScrollHighlight.tsx): the second, `to`-coloured
+   copy of the text that wipes across the first. Generated content keeps the
+   words out of the HTML; the "/ ''" alt text keeps screen readers from
+   reading them twice (browsers without that syntax use the first rule). */
+.hl-wipe::after {
+  content: attr(data-text);
+  content: attr(data-text) / "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: var(--hl-pad);
+  width: var(--hl-pct);
+  overflow: hidden;
+  white-space: nowrap;
+  color: var(--hl-to);
+  pointer-events: none;
+}

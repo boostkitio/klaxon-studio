@@ -1,3 +1,5 @@
+import JsonLd from "@/components/JsonLd";
+import { businessFoundersSchema } from "@/lib/schema";
 import { ogFor } from "@/lib/site";
 
 const TITLE = "About Klaxon Studio | Video Production Company London";
@@ -12,5 +14,10 @@ export const metadata = {
 };
 
 export default function AboutLayout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      <JsonLd data={businessFoundersSchema()} />
+      {children}
+    </>
+  );
 }

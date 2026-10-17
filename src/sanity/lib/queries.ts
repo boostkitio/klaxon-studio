@@ -19,6 +19,7 @@ export const POST_QUERY = defineQuery(`
     title,
     "slug": slug.current,
     publishedAt,
+    "updatedAt": _updatedAt,
     author,
     metaDesc,
     lead,
@@ -40,7 +41,7 @@ export const CLIENT_LOGOS_QUERY = defineQuery(`
   }
 `);
 
-/** Titles for a known set of post slugs — used by the service pages' related-reading block. */
+/** Titles for a known set of post slugs: the related-reading blocks on service, case study and blog pages. */
 export const POST_TITLES_BY_SLUGS_QUERY = defineQuery(`
   *[_type == "post" && slug.current in $slugs]{
     title,

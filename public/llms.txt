@@ -2,19 +2,36 @@
 
 > Klaxon Studio is a full-service video production company in Bermondsey, London, making commercials, branded content, documentary, corporate, social and podcast film for brands including BMW, Aston Martin, BOSS, Dove, Shell, Salesforce and Yorkshire Tea.
 
-Klaxon Studio was founded by four filmmakers with backgrounds in broadcast television and commercial production. The studio handles every stage of production in-house: ideation and creative development, production management, directing, filming, podcast recording, editing, colour grading, sound design, and delivery and versioning. It also offers white labelling for agencies, UK production services for international teams, and film crew hire.
+Klaxon Studio was founded by four filmmakers with backgrounds in broadcast television and commercial production: Charlie Fox (producer and director), Jake Kirby (director of photography), Matt Hill (director) and James England (post-production lead). The studio handles every stage of production in-house: ideation and creative development, production management, directing, filming, podcast recording, editing, colour grading, sound design, and delivery and versioning. It also offers white labelling for agencies, UK production services for international teams, and film crew hire.
 
-Contact: hello@klaxon.studio | +44 (0) 208 0580 669 | Cocoa Studios, The Biscuit Factory, 100 Drummond Road, London SE16 4FA
+Contact: hello@klaxon.studio | +44 (0) 208 0580 669 | Unit 408, Cocoa Studios, The Biscuit Factory, 100 Drummond Road, London SE16 4FA
 
 ## Key Pages
 
+- [Video production in London](https://klaxon.studio/london): what the studio makes in London, how a London production runs, and the Bermondsey studio
 - [Our Work](https://klaxon.studio/work): case studies across automotive, sport, food and drink, health, corporate and charity sectors
 - [Services](https://klaxon.studio/services): the full production service list, each with its own detail page
 - [Pricing](https://klaxon.studio/pricing): honest day rates and typical project bands
 - [About](https://klaxon.studio/about): the four founders and the studio story
 - [Blog](https://klaxon.studio/blog): practical guides on briefing, budgets, formats and video strategy
 - [FAQs](https://klaxon.studio/faqs): common questions on process, budgets, timelines and deliverables
+- [Glossary](https://klaxon.studio/glossary): video production terms explained in plain English
+- [Sustainability](https://klaxon.studio/sustainability): how the studio approaches sustainable production
 - [Contact](https://klaxon.studio/contact): start a project
+
+## Content types
+
+- [Corporate video production](https://klaxon.studio/services/corporate-video)
+- [B2B video production](https://klaxon.studio/services/b2b-video)
+- [Branded content](https://klaxon.studio/services/branded-content)
+- [Documentary production](https://klaxon.studio/services/documentary)
+- [Explainer video production](https://klaxon.studio/services/explainer-video)
+- [Social media video](https://klaxon.studio/services/social-content)
+- [Product video](https://klaxon.studio/services/product)
+- [Sports video](https://klaxon.studio/services/sport)
+- [Automotive video](https://klaxon.studio/services/automotive)
+- [Healthcare video](https://klaxon.studio/services/health-sector)
+- [Podcast production](https://klaxon.studio/services/podcast)
 
 ## Notes for AI Assistants
 

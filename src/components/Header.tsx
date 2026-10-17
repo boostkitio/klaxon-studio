@@ -100,7 +100,10 @@ export default function Header() {
 
             <div ref={moreRef} className="hidden lg:inline-flex relative items-center">
               <button
+                type="button"
                 onClick={() => setMoreOpenForPath((current) => (current === pathname ? null : pathname))}
+                aria-expanded={moreOpen}
+                aria-controls="more-menu"
                 className="inline-flex items-center gap-[6px] font-mono font-medium text-[11px] tracking-[0.12em] uppercase hover:text-[var(--brand)] transition-colors whitespace-nowrap bg-transparent border-0 cursor-pointer"
               >
                 <span className={`${pill} ${moreActive ? "bg-[var(--brand)] text-white" : ""}`}>More</span>
@@ -113,19 +116,24 @@ export default function Header() {
                   </svg>
                 </span>
               </button>
-              {moreOpen && (
-                <div className="absolute top-[calc(100%+14px)] right-0 min-w-[180px] bg-white border border-[var(--border-subtle)] shadow-[var(--shadow-pop)] flex flex-col py-1 z-50">
-                  {moreLinks.map((l) => (
-                    <Link
-                      key={l.href}
-                      href={l.href}
-                      className="px-4 py-[10px] font-mono font-medium text-[11px] tracking-[0.1em] uppercase text-[var(--text-primary)] hover:bg-[var(--brand)] hover:text-white transition-colors"
-                    >
-                      {l.label}
-                    </Link>
-                  ))}
-                </div>
-              )}
+              {/* Always rendered, toggled with `hidden`, so these links (London
+                  among them) are in the server HTML that crawlers read rather
+                  than appearing only after a click. */}
+              <div
+                id="more-menu"
+                hidden={!moreOpen}
+                className="absolute top-[calc(100%+14px)] right-0 min-w-[180px] bg-white border border-[var(--border-subtle)] shadow-[var(--shadow-pop)] flex flex-col py-1 z-50"
+              >
+                {moreLinks.map((l) => (
+                  <Link
+                    key={l.href}
+                    href={l.href}
+                    className="px-4 py-[10px] font-mono font-medium text-[11px] tracking-[0.1em] uppercase text-[var(--text-primary)] hover:bg-[var(--brand)] hover:text-white transition-colors"
+                  >
+                    {l.label}
+                  </Link>
+                ))}
+              </div>
             </div>
 
             <Link

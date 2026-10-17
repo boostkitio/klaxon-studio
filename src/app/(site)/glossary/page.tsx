@@ -1,12 +1,44 @@
+import Link from "next/link";
 import Label from "@/components/ui/Label";
-import { glossaryData } from "@/lib/content";
+import JsonLd from "@/components/JsonLd";
+import { glossaryData, services, contentTypes } from "@/lib/content";
+import { breadcrumbSchema, glossarySchema } from "@/lib/schema";
 import { ogFor } from "@/lib/site";
 
-export const metadata = ogFor("Video Production Glossary", "Video production terminology explained in plain English: the Klaxon Studio glossary.", "/glossary");
+export const metadata = ogFor(
+  "Video Production Glossary",
+  "Video production terms explained in plain English, from DoP and colour grading to Foley, versioning and delivery: the Klaxon Studio glossary.",
+  "/glossary"
+);
+
+/**
+ * Terms that name a service we offer link to its page. A reader looking up
+ * "colour grading" is one step from wanting it done, and the glossary was the
+ * one content page on the site that linked nowhere.
+ */
+const termServiceSlug: Record<string, string> = {
+  "DoP (Director of Photography)": "filming",
+  Cinematography: "filming",
+  "Pre-Production": "production-management",
+  "Post-Production": "editing",
+  "Colour Grading": "colour-grading",
+  "Sound Design": "sound-design",
+  "Sound Mixing": "sound-design",
+  "Dialogue Editing": "sound-design",
+  Storyboarding: "ideation",
+  Scripting: "ideation",
+  "Location Scouting": "production-management",
+  Permits: "uk-production-services",
+  "Multi-Camera Production": "film-crew-hire",
+  "Versioning & Delivery": "delivery-versioning",
+  "Subtitling & Captioning": "delivery-versioning",
+};
+const allServices = [...services, ...contentTypes];
 
 export default function GlossaryPage() {
   return (
     <main>
+      <JsonLd data={[glossarySchema(glossaryData), breadcrumbSchema([{ name: "Glossary", path: "/glossary" }])]} />
       <section className="pt-[clamp(72px,9vw,128px)] pb-[clamp(40px,5vw,64px)]">
         <div className="max-w-[1280px] mx-auto px-[clamp(20px,5vw,48px)]">
           <div className="mb-[clamp(24px,3vw,34px)]">
@@ -33,6 +65,21 @@ export default function GlossaryPage() {
               </h2>
               <p className="m-0 max-w-[60ch] text-[clamp(14px,1.32vw,15.5px)] leading-[1.62] text-[var(--text-secondary)]">
                 {term.d}
+                {(() => {
+                  const svc = allServices.find((s) => s.slug === termServiceSlug[term.t]);
+                  return svc ? (
+                    <>
+                      {" "}Related service:{" "}
+                      <Link
+                        href={svc.href}
+                        className="text-[var(--text-primary)] underline underline-offset-[3px] decoration-[var(--brand)] hover:text-[var(--brand)] transition-colors"
+                      >
+                        {svc.title}
+                      </Link>
+                      .
+                    </>
+                  ) : null;
+                })()}
               </p>
             </div>
           ))}
