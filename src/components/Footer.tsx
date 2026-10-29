@@ -100,6 +100,15 @@ export default function Footer() {
                   {link.label}
                 </Link>
               ))}
+              <span>
+                Website by{" "}
+                <a
+                  href="https://boostkit.io/"
+                  className="hover:text-white/70 transition-colors"
+                >
+                  Boostkit
+                </a>
+              </span>
             </div>
             <span>Bermondsey · London</span>
           </div>
