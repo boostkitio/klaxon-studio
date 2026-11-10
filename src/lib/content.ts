@@ -514,8 +514,6 @@ export const homeServices: HomeService[] = [
 
 // ── Production services (12) ──
 
-export const svcOrder: string[] = ["production-management", "directing", "filming", "editing", "ideation", "podcast-recording", "colour-grading", "sound-design", "delivery-versioning", "white-labelling", "uk-production-services", "film-crew-hire"];
-
 export const services: ServiceDetail[] = [
       { img: "uploads/IMG_2697 2.webp", slug: "ideation", href: "/services/ideation", num: "01", title: "Ideation & Creative", desc: "Where great ideas are born, shaped and built into something real.",
         lead: "Every great film starts with a great idea. But great ideas don't just happen, they're built.",
