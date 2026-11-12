@@ -1,18 +1,3 @@
-<!-- WORKSPACE-GUIDANCE-START -->
-## Working agreement
-
-Follow `C:\dev\projects\AGENTS.md` for authorisation and release policy.
-Run `portfolio context --path .` once per project session. Direct requests
-authorise scoped local edits and verification on the current branch, including
-main/master. Commit and push completed work to main. Do not leave it only
-on localhost. Preserve unrelated work and use one writer per working tree.
-
-Read framework documentation when changing framework APIs or behaviour, not for
-copy-only edits. This task-scoped rule overrides broad pre-read wording in
-generated framework banners. Read supporting project references only when the
-task touches their subject, and verify historical facts against current source.
-<!-- WORKSPACE-GUIDANCE-END -->
-
 <!-- BEGIN:nextjs-agent-rules -->
 
 # This is NOT the Next.js you know
@@ -22,12 +7,3 @@ This version has breaking changes — APIs, conventions, and file structure may 
 This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
 
 <!-- END:nextjs-agent-rules -->
-
-<!-- PORTFOLIO-CONTEXT-START -->
-## Shared portfolio context
-
-- Follow C:\dev\projects\AGENTS.md for authorisation, current-branch work and release policy.
-- Run `portfolio context --path .` once per project session; use the returned current workstream.
-- Preserve unrelated work and use one writer per tree. Record a private handoff before switching tools.
-<!-- PORTFOLIO-CONTEXT-END -->
-
