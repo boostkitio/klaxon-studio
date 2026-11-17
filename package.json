@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "verify": "npm run lint && npm run typecheck && npm run build"
+    "verify": "npm run lint && npm run typecheck && npm test && npm run build",
+    "test": "node --test --test-force-exit src/lib/solicitation.test.ts src/lib/screenEnquiry.test.ts src/lib/gateClient.test.ts src/lib/contactEnquiry.test.ts"
   },
   "dependencies": {
     "@portabletext/react": "^8.0.1",
